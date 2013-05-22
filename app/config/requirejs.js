@@ -11,6 +11,7 @@ require.config({
     'backbone': '../components/backbone/backbone',
     'coffee-script': '../components/coffee-script/index',
     'text': '../components/requirejs-plugins/lib/text',
+    'json': '../components/requirejs-plugins/src/json',
     'cs': '../components/require-cs/cs'
   },
 
