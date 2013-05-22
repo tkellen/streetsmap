@@ -1,0 +1,12 @@
+- locals.config = config
+
+extends layout
+
+block footer
+  if debug === true
+    h1 development
+    script(src="http://localhost:35729/livereload.js")
+    script(data-main="../app/config/requirejs", src="../components/requirejs/require.js")
+  else
+    h1 production
+    script(src="streetsmap.js")
