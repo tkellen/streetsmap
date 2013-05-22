@@ -1,7 +1,7 @@
 define (require) ->
 
   config = require('json!config/streetsmap.json')
-  $ = require('jquery')
+  $ = require('domlib')
   App = require('cs!classes/app')
   Map = require('cs!views/map')
 

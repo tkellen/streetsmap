@@ -1,14 +1,14 @@
 {
   "name": "streetsmap",
   "version": "0.1.0",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "requirejs": "~2.1.6",
     "almond": "~0.2.5",
-    "jquery": "~2.0.0",
     "lodash": "~1.2.1",
     "backbone": "~1.0.0",
     "requirejs-plugins": "~1.0.2",
-    "require-cs": "~0.4.4"
-  },
-  "devDependencies": {}
+    "require-cs": "~0.4.4",
+    "zepto": "~1.0.0"
+  }
 }

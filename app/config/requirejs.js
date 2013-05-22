@@ -6,19 +6,22 @@ require.config({
   deps: ['cs!index'],
 
   paths: {
-    'jquery': '../components/jquery/jquery',
-    'lodash': '../components/lodash/lodash',
-    'backbone': '../components/backbone/backbone',
-    'coffee-script': '../components/coffee-script/index',
-    'text': '../components/requirejs-plugins/lib/text',
-    'json': '../components/requirejs-plugins/src/json',
-    'cs': '../components/require-cs/cs'
+    domlib: '../components/zepto/zepto',
+    lodash: '../components/lodash/lodash',
+    backbone: '../components/backbone/backbone',
+    text: '../components/requirejs-plugins/lib/text',
+    json: '../components/requirejs-plugins/src/json',
+    cs: '../components/require-cs/cs',
+    'coffee-script': '../components/coffee-script/index'
   },
 
   // dependency management
   shim: {
-    'backbone': {
-      deps: ['lodash', 'jquery'],
+    domlib: {
+      exports: '$'
+    },
+    backbone: {
+      deps: ['lodash', 'domlib'],
       exports: 'Backbone',
     },
   },

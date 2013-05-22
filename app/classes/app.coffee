@@ -1,6 +1,6 @@
 define (require) ->
 
-  $ = require('jquery')
+  $ = require('domlib')
   _ = require('lodash')
 
   App = (map) ->
