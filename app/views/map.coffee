@@ -1,11 +1,14 @@
 define (require) ->
 
+  config = require('json!config/streetsmap.json')
   Backbone = require('backbone')
 
   Backbone.View.extend
 
     initialize: ->
       $(window).on('resize', => @resize())
+      $(window).on('start', => @insert())
+      $('body').append(@el)
 
     resize: ->
       h = $(window).height()
@@ -18,16 +21,15 @@ define (require) ->
 
     insert: ->
       @map = new google.maps.Map @el,
-        zoom: 13
-        scrollwheel: false
+        zoom: config.map.zoom,
+        center: new google.maps.LatLng(
+          config.map.center.lat,
+          config.map.center.lng
+        )
         mapTypeId: google.maps.MapTypeId.ROADMAP
-        navigationControl: true
-        navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL}
         scaleControl: true
-        center: new google.maps.LatLng(45.5600,-94.1576)
       @render()
 
     render: ->
-      $('body').append(@el)
       @resize()
       @

@@ -1,13 +1,18 @@
 define (require) ->
 
+  GMap = require('cs!classes/gmap')
   $ = require('domlib')
   _ = require('lodash')
 
-  App = (map) ->
-    @map = map
-    @
+  App = ->
+     _.extend(@, Backbone.Events)
+     @
 
-  App.prototype.start = ->
+  App::start = ->
+
+    # load google maps
+    GMap.load()
+
     # trigger an event (resized) after resizing is complete.  this gives
     # elements that need to know the window size something to listen for
     # to repaint themselves (otherwise they would be resizing continuously
@@ -28,8 +33,5 @@ define (require) ->
     $(window).on 'resized', =>
       $('body').removeClass('disabled')
       disable_after = false;
-
-    if @map
-      @map.insert()
 
   App

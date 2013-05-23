@@ -1,14 +1,17 @@
 define (require) ->
 
-  config = require('json!config/streetsmap.json')
   $ = require('domlib')
-  App = require('cs!classes/app')
-  Map = require('cs!views/map')
+  Data = require('json!config/mapdata.json')
+  Routes = require('cs!collections/routes')
+  Points = require('cs!collections/points')
+  MapView = require('cs!views/map')
+  StreetsMap = require('cs!classes/app')
 
   $ ->
-    window.App = new App(new Map())
-
-    script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = 'http://maps.googleapis.com/maps/api/js?key='+config.apikey+'&sensor=true&callback=App.start'
-    document.body.appendChild(script)
+    StreetsMap = window.App = new StreetsMap()
+    StreetsMap.Map = new MapView()
+    StreetsMap.Data = Data
+    StreetsMap.Collections =
+      Routes: new Routes(Data.routes)
+      Points: new Points(Data.points)
+    StreetsMap.start()
