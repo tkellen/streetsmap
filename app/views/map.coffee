@@ -26,6 +26,7 @@ define (require) ->
           config.map.center.lat,
           config.map.center.lng
         )
+        keyboardShortcuts: false
         mapTypeId: google.maps.MapTypeId.ROADMAP
         scaleControl: true
       @render()
