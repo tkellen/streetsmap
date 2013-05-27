@@ -1,0 +1,85 @@
+.toggle
+  position: relative
+  width: 65px
+  height: 25px
+  float: right
+  cursor: pointer
+
+  input
+    opacity: 0
+    cursor: pointer
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 6
+    width: 65px
+    height: 25px
+    background-color: #fff
+    &:checked
+      & ~ .btn
+        left: 35px
+      & ~ .bg
+        background: linear-gradient(#809e2f, #a5c04d)
+
+  .btn
+    display: block
+    position: absolute
+    z-index: 4
+    top: -2px
+    left: 0px
+    width: 29px
+    height: 29px
+    background: linear-gradient(rgba(253,253,253,1) 0%,
+                                rgba(255,255,255,1) 3%,
+                                rgba(252,252,252,1) 13%,
+                                rgba(228,228,228,1) 50%,
+                                rgba(221,221,221,1) 55%,
+                                rgba(208,208,208,1) 85%,
+                                rgba(205,205,205,1) 100%)
+    border-radius: 5px
+    box-shadow: 0 5px 5px rgba(50, 50, 50, 0.2)
+    transition: left 0.15s ease
+
+    &:after
+      content: ""
+      position: absolute
+      left: 6px
+      top: 6px
+      width: 18px
+      height: 18px
+      box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.08)
+      background: #e3e3e3
+      border-radius: 3px
+
+  .labels
+    position: absolute
+    z-index: 2
+    width: 100%
+    font-family: Helvetica, sans-serif
+    font-weight: bold
+    font-size: 12px
+    color: #eee
+    text-transform: uppercase
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5)
+    line-height: 26px
+    &:before
+      content: "On"
+      position: absolute
+      left: 6px
+
+    &:after
+      content: "Off"
+      position: absolute
+      right: 6px
+
+  .bg
+    display: block
+    position: absolute
+    z-index: 0
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    border-radius: 5px
+    box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.2)
+    background: linear-gradient(#848484, #a2a2a2)

@@ -1,19 +1,17 @@
 define (require) ->
 
   $ = require('domlib')
-  Data = require('json!config/mapdata.json')
-  Routes = require('cs!collections/routes')
-  Points = require('cs!collections/points')
-  MapView = require('cs!views/map')
-  MenuView = require('cs!views/menu')
-  StreetsMap = require('cs!classes/app')
+  App = require('cs!app/classes/app')
+
+  StreetsMap = window.App = new App()
+  StreetsMap.Templates = require('dist/templates')
+  StreetsMap.Data = require('json!config/mapdata.json')
+  StreetsMap.Views =
+    Menu: require('cs!app/views/menu')
+    Map: require('cs!app/views/map')
+  StreetsMap.Collections =
+    Routes: require('cs!app/collections/routes')
+    Points: require('cs!app/collections/routes')
 
   $ ->
-    StreetsMap = window.App = new StreetsMap()
-    StreetsMap.Map = new MapView()
-    StreetsMap.Menu = new MenuView()
-    StreetsMap.Data = Data
-    StreetsMap.Collections =
-      Routes: new Routes(Data.routes)
-      Points: new Points(Data.points)
-    StreetsMap.start()
+    StreetsMap.init()

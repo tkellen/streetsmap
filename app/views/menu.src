@@ -1,0 +1,401 @@
+define (require) ->
+
+  Backbone = require('backbone')
+
+  Backbone.View.extend
+###
+jPanelMenu 1.3.0 (http://jpanelmenu.com)
+By Anthony Colangelo (http://acolangelo.com)
+###
+(($) ->
+  $.jPanelMenu = (options) ->
+    options = {}  if typeof (options) is "undefined" or not options?
+    jP =
+      options: $.extend(
+        menu: "#menu"
+        trigger: ".menu-trigger"
+        excludedPanelContent: "style, script"
+        direction: "left"
+        openPosition: "250px"
+        animated: true
+        closeOnContentClick: true
+        keyboardShortcuts: [
+          code: 27
+          open: false
+          close: true
+        ,
+          code: 37
+          open: false
+          close: true
+        ,
+          code: 39
+          open: true
+          close: true
+        ,
+          code: 77
+          open: true
+          close: true
+        ]
+        duration: 150
+        openDuration: options.duration or 150
+        closeDuration: options.duration or 150
+        easing: "ease-in-out"
+        openEasing: options.easing or "ease-in-out"
+        closeEasing: options.easing or "ease-in-out"
+        before: ->
+
+        beforeOpen: ->
+
+        beforeClose: ->
+
+        after: ->
+
+        afterOpen: ->
+
+        afterClose: ->
+
+        beforeOn: ->
+
+        afterOn: ->
+
+        beforeOff: ->
+
+        afterOff: ->
+      , options)
+      settings:
+        transitionsSupported: "WebkitTransition" of document.body.style or "MozTransition" of document.body.style or "msTransition" of document.body.style or "OTransition" of document.body.style or "Transition" of document.body.style
+        shiftFixedChildren: false
+        panelPosition: "relative"
+        positionUnits: "px"
+
+      menu: "#jPanelMenu-menu"
+      panel: ".jPanelMenu-panel"
+      fixedChildren: []
+      timeouts: {}
+      clearTimeouts: ->
+        clearTimeout jP.timeouts.open
+        clearTimeout jP.timeouts.afterOpen
+        clearTimeout jP.timeouts.afterClose
+
+      setPositionUnits: ->
+        foundUnit = false
+        allowedUnits = ["%", "px", "em"]
+        for unitID of allowedUnits
+          unit = allowedUnits[unitID]
+          if jP.options.openPosition.toString().substr(-unit.length) is unit
+            foundUnit = true
+            jP.settings.positionUnits = unit
+        jP.options.openPosition = parseInt(jP.options.openPosition) + jP.settings.positionUnits  unless foundUnit
+
+      checkFixedChildren: ->
+        jP.disableTransitions()
+        defaultPanelStyle = position: $(jP.panel).css("position")
+        defaultPanelStyle[jP.options.direction] = (if ($(jP.panel).css(jP.options.direction) is "auto") then 0 else $(jP.panel).css(jP.options.direction))
+        $(jP.panel).find("> *").each ->
+          jP.fixedChildren.push this  if $(this).css("position") is "fixed" and $(this).css(jP.options.direction) is "auto"
+
+        if jP.fixedChildren.length > 0
+          newPanelStyle = position: "relative"
+          newPanelStyle[jP.options.direction] = "1px"
+          jP.setPanelStyle newPanelStyle
+          jP.settings.shiftFixedChildren = true  if parseInt($(jP.fixedChildren[0]).offset().left) is 0
+        jP.setPanelStyle defaultPanelStyle
+
+      setjPanelMenuStyles: ->
+        bgColor = "#fff"
+        htmlBG = $("html").css("background-color")
+        bodyBG = $("body").css("background-color")
+        if bodyBG isnt "transparent" and bodyBG isnt "rgba(0, 0, 0, 0)"
+          bgColor = bodyBG
+        else if htmlBG isnt "transparent" and htmlBG isnt "rgba(0, 0, 0, 0)"
+          bgColor = htmlBG
+        else
+          bgColor = "#fff"
+        $("body").append "<style id=\"jPanelMenu-style-master\">body{width:100%}.jPanelMenu,body{overflow-x:hidden}#jPanelMenu-menu{display:block;position:fixed;top:0;" + jP.options.direction + ":0;height:100%;z-index:-1;overflow-x:hidden;overflow-y:scroll;-webkit-overflow-scrolling:touch}.jPanelMenu-panel{position:static;" + jP.options.direction + ":0;top:0;z-index:2;width:100%;min-height:100%;background:" + bgColor + "}</style>"  if $("#jPanelMenu-style-master").length is 0
+
+      setMenuState: (open) ->
+        position = (if (open) then "open" else "closed")
+        $("body").attr "data-menu-position", position
+
+      getMenuState: ->
+        $("body").attr "data-menu-position"
+
+      menuIsOpen: ->
+        if jP.getMenuState() is "open"
+          true
+        else
+          false
+
+      setMenuStyle: (styles) ->
+        $(jP.menu).css styles
+
+      setPanelStyle: (styles) ->
+        $(jP.panel).css styles
+
+      showMenu: ->
+        jP.setMenuStyle display: "block"
+        jP.setMenuStyle "z-index": "1"
+
+      hideMenu: ->
+        jP.setMenuStyle "z-index": "-1"
+        jP.setMenuStyle display: "none"
+
+      enableTransitions: (duration, easing) ->
+        formattedDuration = duration / 1000
+        formattedEasing = jP.getCSSEasingFunction(easing)
+        jP.disableTransitions()
+        $("body").append "<style id=\"jPanelMenu-style-transitions\">.jPanelMenu-panel{-webkit-transition: all " + formattedDuration + "s " + formattedEasing + "; -moz-transition: all " + formattedDuration + "s " + formattedEasing + "; -o-transition: all " + formattedDuration + "s " + formattedEasing + "; transition: all " + formattedDuration + "s " + formattedEasing + ";}</style>"
+
+      disableTransitions: ->
+        $("#jPanelMenu-style-transitions").remove()
+
+      enableFixedTransitions: (selector, id, duration, easing) ->
+        formattedDuration = duration / 1000
+        formattedEasing = jP.getCSSEasingFunction(easing)
+        jP.disableFixedTransitions id
+        $("body").append "<style id=\"jPanelMenu-style-fixed-" + id + "\">" + selector + "{-webkit-transition: all " + formattedDuration + "s " + formattedEasing + "; -moz-transition: all " + formattedDuration + "s " + formattedEasing + "; -o-transition: all " + formattedDuration + "s " + formattedEasing + "; transition: all " + formattedDuration + "s " + formattedEasing + ";}</style>"
+
+      disableFixedTransitions: (id) ->
+        $("#jPanelMenu-style-fixed-" + id).remove()
+
+      getCSSEasingFunction: (name) ->
+        switch name
+          when "linear"
+            return name
+          when "ease"
+            return name
+          when "ease-in"
+            return name
+          when "ease-out"
+            return name
+          when "ease-in-out"
+            return name
+          else
+            return "ease-in-out"
+
+      getJSEasingFunction: (name) ->
+        switch name
+          when "linear"
+            return name
+          else
+            return "swing"
+
+      openMenu: (animated) ->
+        animated = jP.options.animated  if typeof (animated) is "undefined" or not animated?
+        jP.clearTimeouts()
+        jP.options.before()
+        jP.options.beforeOpen()
+        jP.setMenuState true
+        jP.setPanelStyle position: "relative"
+        jP.showMenu()
+        animationChecks =
+          none: (if (not animated) then true else false)
+          transitions: (if (animated and jP.settings.transitionsSupported) then true else false)
+
+        if animationChecks.transitions or animationChecks.none
+          jP.disableTransitions()  if animationChecks.none
+          jP.enableTransitions jP.options.openDuration, jP.options.openEasing  if animationChecks.transitions
+          newPanelStyle = {}
+          newPanelStyle[jP.options.direction] = jP.options.openPosition
+          jP.setPanelStyle newPanelStyle
+          if jP.settings.shiftFixedChildren
+            $(jP.fixedChildren).each ->
+              id = $(this).prop("tagName").toLowerCase() + " " + $(this).attr("class")
+              selector = id.replace(" ", ".")
+              id = id.replace(" ", "-")
+              jP.disableFixedTransitions id  if animationChecks.none
+              jP.enableFixedTransitions selector, id, jP.options.openDuration, jP.options.openEasing  if animationChecks.transitions
+              newChildrenStyle = {}
+              newChildrenStyle[jP.options.direction] = jP.options.openPosition
+              $(this).css newChildrenStyle
+
+          jP.timeouts.afterOpen = setTimeout(->
+            jP.disableTransitions()
+            if jP.settings.shiftFixedChildren
+              $(jP.fixedChildren).each ->
+                id = $(this).prop("tagName").toLowerCase() + " " + $(this).attr("class")
+                id = id.replace(" ", "-")
+                jP.disableFixedTransitions id
+
+            jP.options.after()
+            jP.options.afterOpen()
+            jP.initiateContentClickListeners()
+          , jP.options.openDuration)
+        else
+          formattedEasing = jP.getJSEasingFunction(jP.options.openEasing)
+          animationOptions = {}
+          animationOptions[jP.options.direction] = jP.options.openPosition
+          $(jP.panel).stop().animate animationOptions, jP.options.openDuration, formattedEasing, ->
+            jP.options.after()
+            jP.options.afterOpen()
+            jP.initiateContentClickListeners()
+
+          if jP.settings.shiftFixedChildren
+            $(jP.fixedChildren).each ->
+              childrenAnimationOptions = {}
+              childrenAnimationOptions[jP.options.direction] = jP.options.openPosition
+              $(this).stop().animate childrenAnimationOptions, jP.options.openDuration, formattedEasing
+
+
+      closeMenu: (animated) ->
+        animated = jP.options.animated  if typeof (animated) is "undefined" or not animated?
+        jP.clearTimeouts()
+        jP.options.before()
+        jP.options.beforeClose()
+        jP.setMenuState false
+        animationChecks =
+          none: (if (not animated) then true else false)
+          transitions: (if (animated and jP.settings.transitionsSupported) then true else false)
+
+        if animationChecks.transitions or animationChecks.none
+          jP.disableTransitions()  if animationChecks.none
+          jP.enableTransitions jP.options.closeDuration, jP.options.closeEasing  if animationChecks.transitions
+          newPanelStyle = {}
+          newPanelStyle[jP.options.direction] = 0 + jP.settings.positionUnits
+          jP.setPanelStyle newPanelStyle
+          if jP.settings.shiftFixedChildren
+            $(jP.fixedChildren).each ->
+              id = $(this).prop("tagName").toLowerCase() + " " + $(this).attr("class")
+              selector = id.replace(" ", ".")
+              id = id.replace(" ", "-")
+              jP.disableFixedTransitions id  if animationChecks.none
+              jP.enableFixedTransitions selector, id, jP.options.closeDuration, jP.options.closeEasing  if animationChecks.transitions
+              newChildrenStyle = {}
+              newChildrenStyle[jP.options.direction] = 0 + jP.settings.positionUnits
+              $(this).css newChildrenStyle
+
+          jP.timeouts.afterClose = setTimeout(->
+            jP.setPanelStyle position: jP.settings.panelPosition
+            jP.disableTransitions()
+            if jP.settings.shiftFixedChildren
+              $(jP.fixedChildren).each ->
+                id = $(this).prop("tagName").toLowerCase() + " " + $(this).attr("class")
+                id = id.replace(" ", "-")
+                jP.disableFixedTransitions id
+
+            jP.hideMenu()
+            jP.options.after()
+            jP.options.afterClose()
+            jP.destroyContentClickListeners()
+          , jP.options.closeDuration)
+        else
+          formattedEasing = jP.getJSEasingFunction(jP.options.closeEasing)
+          animationOptions = {}
+          animationOptions[jP.options.direction] = 0 + jP.settings.positionUnits
+          $(jP.panel).stop().animate animationOptions, jP.options.closeDuration, formattedEasing, ->
+            jP.setPanelStyle position: jP.settings.panelPosition
+            jP.hideMenu()
+            jP.options.after()
+            jP.options.afterClose()
+            jP.destroyContentClickListeners()
+
+          if jP.settings.shiftFixedChildren
+            $(jP.fixedChildren).each ->
+              childrenAnimationOptions = {}
+              childrenAnimationOptions[jP.options.direction] = 0 + jP.settings.positionUnits
+              $(this).stop().animate childrenAnimationOptions, jP.options.closeDuration, formattedEasing
+
+
+      triggerMenu: (animated) ->
+        if jP.menuIsOpen()
+          jP.closeMenu animated
+        else
+          jP.openMenu animated
+
+      initiateClickListeners: ->
+        $(document).on "click", jP.options.trigger, ->
+          jP.triggerMenu jP.options.animated
+          false
+
+
+      destroyClickListeners: ->
+        $(document).off "click", jP.options.trigger, null
+
+      initiateContentClickListeners: ->
+        return false  unless jP.options.closeOnContentClick
+        $(document).on "click", jP.panel, (e) ->
+          jP.closeMenu jP.options.animated  if jP.menuIsOpen()
+
+        $(document).on "touchend", jP.panel, (e) ->
+          jP.closeMenu jP.options.animated  if jP.menuIsOpen()
+
+
+      destroyContentClickListeners: ->
+        return false  unless jP.options.closeOnContentClick
+        $(document).off "click", jP.panel, null
+        $(document).off "touchend", jP.panel, null
+
+      initiateKeyboardListeners: ->
+        preventKeyListeners = ["input", "textarea"]
+        $(document).on "keydown", (e) ->
+          target = $(e.target)
+          prevent = false
+          $.each preventKeyListeners, ->
+            prevent = true  if target.is(@toString())
+
+          return true  if prevent
+          for mapping of jP.options.keyboardShortcuts
+            if e.which is jP.options.keyboardShortcuts[mapping].code
+              key = jP.options.keyboardShortcuts[mapping]
+              if key.open and key.close
+                jP.triggerMenu jP.options.animated
+              else if (key.open and not key.close) and not jP.menuIsOpen()
+                jP.openMenu jP.options.animated
+              else jP.closeMenu jP.options.animated  if (not key.open and key.close) and jP.menuIsOpen()
+              return false
+
+
+      destroyKeyboardListeners: ->
+        $(document).off "keydown", null
+
+      setupMarkup: ->
+        $("html").addClass "jPanelMenu"
+        $("body > *").not(jP.menu + ", " + jP.options.excludedPanelContent).wrapAll "<div class=\"" + jP.panel.replace(".", "") + "\"/>"
+        $(jP.options.menu).clone().attr("id", jP.menu.replace("#", "")).insertAfter "body > " + jP.panel
+
+      resetMarkup: ->
+        $("html").removeClass "jPanelMenu"
+        $("body > " + jP.panel + " > *").unwrap()
+        $(jP.menu).remove()
+
+      init: ->
+        jP.options.beforeOn()
+        jP.initiateClickListeners()
+        jP.initiateKeyboardListeners()  if Object::toString.call(jP.options.keyboardShortcuts) is "[object Array]"
+        jP.setjPanelMenuStyles()
+        jP.setMenuState false
+        jP.setupMarkup()
+        jP.setMenuStyle width: jP.options.openPosition
+        jP.checkFixedChildren()
+        jP.setPositionUnits()
+        jP.closeMenu false
+        jP.options.afterOn()
+
+      destroy: ->
+        jP.options.beforeOff()
+        jP.closeMenu()
+        jP.destroyClickListeners()
+        jP.destroyKeyboardListeners()  if Object::toString.call(jP.options.keyboardShortcuts) is "[object Array]"
+        jP.resetMarkup()
+        childrenStyles = {}
+        childrenStyles[jP.options.direction] = "auto"
+        $(jP.fixedChildren).each ->
+          $(this).css childrenStyles
+
+        jP.fixedChildren = []
+        jP.options.afterOff()
+
+    on: jP.init
+    off: jP.destroy
+    trigger: jP.triggerMenu
+    open: jP.openMenu
+    close: jP.closeMenu
+    isOpen: jP.menuIsOpen
+    menu: jP.menu
+    getMenu: ->
+      $ jP.menu
+
+    panel: jP.panel
+    getPanel: ->
+      $ jP.panel
+) jQuery

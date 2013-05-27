@@ -3,8 +3,11 @@ define (require) ->
   Backbone = require('backbone')
 
   Backbone.Collection.extend
-    model: require('cs!models/route')
+
+    model: require('cs!app/models/route')
+
+    initialize: (models, app) ->
+      @App = app
 
     drawAll: ->
-      @forEach (item) ->
-        console.log(item)
+      @forEach (item) => item.draw()

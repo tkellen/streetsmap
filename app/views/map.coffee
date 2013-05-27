@@ -5,9 +5,12 @@ define (require) ->
 
   Backbone.View.extend
 
-    initialize: ->
-      $(window).on('resize', => @resize())
-      $(window).on('start', => @insert())
+    className: 'map'
+
+    initialize: (app) ->
+      @App = app
+      @listenTo(@App, 'resize', @render)
+      @listenTo(@App, 'start', @insert)
       $('body').append(@el)
 
     resize: ->
@@ -20,7 +23,7 @@ define (require) ->
         window.width = w
 
     insert: ->
-      @map = new google.maps.Map @el,
+      @instance = new google.maps.Map @el,
         zoom: config.map.zoom,
         center: new google.maps.LatLng(
           config.map.center.lat,

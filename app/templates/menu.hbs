@@ -1,0 +1,15 @@
+<div class="panel">
+  <ul>
+  {{#each routes}}
+    <li>
+      {{name}}
+      <div class="menuitem toggle">
+        <input type="checkbox" name="{{abbr}}" id="{{abbr}}" value={{id}} checked="checked"/>
+        <span class="btn"></span>
+        <span class="labels"></span>
+        <span class="bg"></span>
+      </div>
+    </li>
+  {{/each}}
+  </ul>
+</div>
