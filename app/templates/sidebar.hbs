@@ -1,7 +1,9 @@
 <nav>
   <ul>
-  {{#each routes}}
+    <li>Route Control</li>
+    {{#each routes}}
     <li>
+      <div class="icon" style="background-color:{{color}}"></div>
       {{name}}
       <div class="menuitem toggle">
         <input type="checkbox" name="{{abbr}}" id="{{abbr}}" value={{id}} {{#if visible}}checked="checked"{{/if}}/>
@@ -10,6 +12,6 @@
         <span class="bg"></span>
       </div>
     </li>
-  {{/each}}
+    {{/each}}
   </ul>
 </nav>

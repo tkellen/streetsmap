@@ -41,10 +41,10 @@ define (require) ->
 
     show: ->
       @$el.show().animate({marginLeft:0}, 100)
-      $('body').animate({marginLeft:300}, 100)
+      $('body').animate({marginLeft:325}, 100)
 
     hide: ->
-      @$el.animate({marginLeft:-300}, {duration:100, complete:=>@$el.hide()})
+      @$el.animate({marginLeft:-325}, {duration:100, complete:=>@$el.hide()})
       $('body').animate({marginLeft:0}, 100)
 
     toggle: ->
