@@ -19,13 +19,13 @@ module.exports = (grunt) ->
       options:
         livereload: true
       css:
-        files: ['app/assets/css/**/*']
+        files: ['app/assets/css/*']
         tasks: ['stylus']
       jade:
-        files: ['app/pages/**/*']
+        files: ['app/pages/*']
         tasks: ['jade:debug']
       handlebars:
-        files: ['app/templates/**/*']
+        files: ['app/templates/*']
         tasks: ['handlebars']
 
     connect:

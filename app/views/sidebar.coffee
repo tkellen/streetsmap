@@ -6,7 +6,7 @@ define (require) ->
 
     tagName: 'aside'
     events:
-      'click .menuitem': 'click'
+      'change .menuitem': 'click'
 
     keyCodes: [
       { code: 77, show: true,  hide: true } # m key
@@ -17,17 +17,17 @@ define (require) ->
 
     initialize: (app) ->
       @App = app
-      @state = new Backbone.Model({visible:false})
+      @model = new Backbone.Model({visible:false})
       @collection = @App.Collections.Routes
       @listenTo(@App, 'keydown', @keydown)
-      @listenTo(@App, 'toggleMenu', @show)
-      @listenTo(@state, 'change:visible', @toggle)
+      @listenTo(@App, 'toggleMenu', @toggle)
+      @listenTo(@model, 'change:visible', @toggleEvent)
       @listenTo(@collection, 'change', @render)
       @render()
       $('body').prepend(@$el)
 
     keydown: (code) ->
-      visible = @state.get('visible')
+      visible = @model.get('visible')
       for mapping of @keyCodes
         key = @keyCodes[mapping];
         if code == key.code
@@ -37,7 +37,7 @@ define (require) ->
             visible = true
           else if visible && key.hide
             visible = false
-          @state.set('visible', visible)
+          @model.set('visible', visible)
 
     show: ->
       @$el.show().animate({marginLeft:0}, 100)
@@ -47,14 +47,16 @@ define (require) ->
       @$el.animate({marginLeft:-300}, {duration:100, complete:=>@$el.hide()})
       $('body').animate({marginLeft:0}, 100)
 
-    toggle: (model, value) ->
+    toggle: ->
+      @model.set('visible', !@model.get('visible'))
+
+    toggleEvent: (model, value) ->
       if value then @show() else @hide()
 
     click: (item) ->
       target = $(item.target)
       id = target.attr('id')
-      visible = target.is(':checked')
-      @collection.findWhere({abbr:id}).set('visible',visible)
+      @collection.findWhere({abbr:id}).toggle()
 
     render: ->
       @$el.html(@App.renderTemplate('sidebar', {routes:@collection.toJSON()}))

@@ -8,7 +8,7 @@ define (require) ->
     initialize: ->
       @set('visible', false)
       @set('drawn', false)
-      @on('change:visible', @toggle)
+      @on('change:visible', @toggleEvent)
 
     show: ->
       if !@get('drawn')
@@ -24,5 +24,8 @@ define (require) ->
       @set('visible', false)
       @get('instance').setMap(null)
 
-    toggle: (model, value) ->
+    toggle: ->
+      @set('visible', !@get('visible'))
+
+    toggleEvent: (model, value) ->
       if value then @show() else @hide()
