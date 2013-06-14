@@ -1,10 +1,10 @@
-<div class="panel">
+<nav>
   <ul>
   {{#each routes}}
     <li>
       {{name}}
       <div class="menuitem toggle">
-        <input type="checkbox" name="{{abbr}}" id="{{abbr}}" value={{id}} checked="checked"/>
+        <input type="checkbox" name="{{abbr}}" id="{{abbr}}" value={{id}} {{#if visible}}checked="checked"{{/if}}/>
         <span class="btn"></span>
         <span class="labels"></span>
         <span class="bg"></span>
@@ -12,4 +12,4 @@
     </li>
   {{/each}}
   </ul>
-</div>
+</nav>

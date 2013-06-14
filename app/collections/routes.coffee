@@ -9,5 +9,5 @@ define (require) ->
     initialize: (models, app) ->
       @App = app
 
-    drawAll: ->
-      @forEach (item) => item.draw()
+    showAll: ->
+      @forEach (item) -> item.show()

@@ -9,12 +9,14 @@ define (require) ->
 
     initialize: (app) ->
       @App = app
-      @listenTo(@App, 'resize', @render)
+      @collection = @App.Collections.Routes
+      @marginTop = @$el.css('marginTop')
       @listenTo(@App, 'start', @insert)
+      @listenTo(@App, 'resize', @render)
       $('body').append(@el)
 
     resize: ->
-      h = $(window).height()
+      h = $(window).height()-@marginTop
       w = $(window).width()
       if h != window.height || w != window.width
         @$el.css('height',h)
@@ -32,6 +34,7 @@ define (require) ->
         keyboardShortcuts: false
         mapTypeId: google.maps.MapTypeId.ROADMAP
         scaleControl: true
+      @collection.showAll()
       @render()
 
     render: ->

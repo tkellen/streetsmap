@@ -2,6 +2,7 @@ define (require) ->
 
   GMap = require('cs!app/classes/gmap')
   $ = require('domlib')
+  _ = require('lodash')
 
   App = ->
      _.extend(@, Backbone.Events)

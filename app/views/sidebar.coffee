@@ -4,7 +4,7 @@ define (require) ->
 
   Backbone.View.extend
 
-    tagName: 'nav'
+    tagName: 'aside'
     events:
       'click .menuitem': 'click'
 
@@ -17,14 +17,17 @@ define (require) ->
 
     initialize: (app) ->
       @App = app
-      @State = new Backbone.Model({visible:false})
+      @state = new Backbone.Model({visible:false})
+      @collection = @App.Collections.Routes
       @listenTo(@App, 'keydown', @keydown)
-      @listenTo(@State, 'change:visible', @toggle)
+      @listenTo(@App, 'toggleMenu', @show)
+      @listenTo(@state, 'change:visible', @toggle)
+      @listenTo(@collection, 'change', @render)
       @render()
       $('body').prepend(@$el)
 
     keydown: (code) ->
-      visible = @State.get('visible')
+      visible = @state.get('visible')
       for mapping of @keyCodes
         key = @keyCodes[mapping];
         if code == key.code
@@ -34,7 +37,7 @@ define (require) ->
             visible = true
           else if visible && key.hide
             visible = false
-          @State.set('visible', visible)
+          @state.set('visible', visible)
 
     show: ->
       @$el.show().animate({marginLeft:0}, 100)
@@ -48,8 +51,11 @@ define (require) ->
       if value then @show() else @hide()
 
     click: (item) ->
-      @App.trigger('toggleRoute', item)
+      target = $(item.target)
+      id = target.attr('id')
+      visible = target.is(':checked')
+      @collection.findWhere({abbr:id}).set('visible',visible)
 
     render: ->
-      @$el.html(@App.renderTemplate('menu', {routes:@App.Collections.Routes.toJSON()}))
+      @$el.html(@App.renderTemplate('sidebar', {routes:@collection.toJSON()}))
       @

@@ -5,20 +5,24 @@ define (require) ->
 
   Backbone.Model.extend
 
-    isVisible: false,
-
     initialize: ->
-      @listenTo(@collection.App, 'toggleRoute', @toggle)
-
-    draw: ->
-      @set('visible', true)
-      @set('instance', GMap.drawPolyline
-        path: GMap.buildPolyline(@get('polyline'))
-        color: @get('color')
-      )
+      @set('visible', false)
+      @set('drawn', false)
+      @on('change:visible', @toggle)
 
     show: ->
+      if !@get('drawn')
+        @set('instance', GMap.buildPolyline
+          path: GMap.buildPath(@get('polyline'))
+          color: @get('color')
+        )
+      @set('visible', true)
+      @set('drawn', true)
       @get('instance').setMap(@collection.App.map())
 
     hide: ->
+      @set('visible', false)
       @get('instance').setMap(null)
+
+    toggle: (model, value) ->
+      if value then @show() else @hide()

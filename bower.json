@@ -9,8 +9,8 @@
     "requirejs-plugins": "~1.0.2",
     "require-cs": "~0.4.4",
     "hammerjs": "~1.0.5",
-    "handlebars": "1.0.0-rc.4",
     "backbone": "~1.0.0",
-    "zepto": "~1.0.0"
+    "zepto": "~1.0.0",
+    "handlebars": "~1.0.0"
   }
 }

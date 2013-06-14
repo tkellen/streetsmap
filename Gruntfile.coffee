@@ -22,10 +22,10 @@ module.exports = (grunt) ->
         files: ['app/assets/css/**/*']
         tasks: ['stylus']
       jade:
-        files: ['app/**/*', '!app/assets/css/**/*']
+        files: ['app/pages/**/*']
         tasks: ['jade:debug']
       handlebars:
-        files: ['app/templates/**']
+        files: ['app/templates/**/*']
         tasks: ['handlebars']
 
     connect:
@@ -51,15 +51,21 @@ module.exports = (grunt) ->
 
     jade:
       debug:
-        src: 'app/index.jade'
-        dest: 'dist/index.html'
+        expand: true
+        cwd: 'app/pages'
+        src: '*.jade'
+        dest: 'dist'
+        ext: '.html'
         options:
           data:
             config: require('./config/streetsmap'),
             debug: true
       production:
-        src: 'app/index.jade'
-        dest: 'dist/index.html'
+        expand: true
+        cwd: 'app/pages'
+        src: '*.jade'
+        dest: 'dist'
+        ext: '.html'
         options:
           keepalive: true
           data:
