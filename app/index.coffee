@@ -8,7 +8,7 @@ define (require) ->
   StreetsMap.Data = require('json!config/mapdata.json')
   StreetsMap.Collections =
     Routes: require('cs!app/collections/routes')
-    Points: require('cs!app/collections/routes')
+    Points: require('cs!app/collections/points')
   StreetsMap.Views =
     Sidebar: require('cs!app/views/sidebar')
     Header: require('cs!app/views/header')

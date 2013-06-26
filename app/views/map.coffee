@@ -24,6 +24,12 @@ define (require) ->
         window.height = h
         window.width = w
 
+    zoom: ->
+      if @instance.getZoom() > 13
+        @App.trigger('showStops')
+      else
+        @App.trigger('hideStops')
+
     insert: ->
       @instance = new google.maps.Map @el,
         zoom: config.map.zoom,
@@ -34,6 +40,7 @@ define (require) ->
         keyboardShortcuts: false
         mapTypeId: google.maps.MapTypeId.ROADMAP
         scaleControl: true
+      google.maps.event.addListener(@instance, 'zoom_changed', => @zoom())
       @collection.showAll()
       @render()
 
