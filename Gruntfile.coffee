@@ -67,7 +67,6 @@ module.exports = (grunt) ->
         dest: 'dist'
         ext: '.html'
         options:
-          keepalive: true
           data:
             config: require('./config/streetsmap')
             debug: false
