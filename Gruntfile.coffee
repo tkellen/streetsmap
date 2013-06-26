@@ -18,6 +18,12 @@ module.exports = (grunt) ->
     watch:
       options:
         livereload: true
+      app:
+        files: ['app/*',
+                'app/classes/*',
+                'app/models/*',
+                'app/views/*',
+                'app/collections/*']
       css:
         files: ['app/assets/css/*']
         tasks: ['stylus']
@@ -96,5 +102,6 @@ module.exports = (grunt) ->
 
   grunt.registerTask('work', ['jade:debug', 'handlebars', 'stylus', 'connect:debug', 'watch'])
   grunt.registerTask('production', ['jade:production', 'handlebars', 'requirejs:production', 'stylus', 'connect:production:keepalive'])
+  grunt.registerTask('noop',->)
   grunt.registerTask('default', ['work'])
 
