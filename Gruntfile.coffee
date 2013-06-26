@@ -86,7 +86,6 @@ module.exports = (grunt) ->
         mainConfigFile: 'config/requirejs.js',
         name: 'components/almond/almond',
         out: 'dist/streetsmap.js'
-        wrap: false
 
       debug:
         options:
