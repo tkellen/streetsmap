@@ -37,19 +37,16 @@ module.exports = (grunt) ->
     connect:
       options:
         port: 8000
+        base: 'dist'
       debug:
         options:
-          base: './'
           middleware: (connect, options) ->
             [
-              (req, res, next) ->
-                if req.url == '/'
-                  res.writeHead(302, {Location: 'dist'})
-                  res.end()
-                else
-                  next()
+              connect().use('/app',connect.static(__dirname+'/app'))
+              connect().use('/dist',connect.static(__dirname+'/dist'))
+              connect().use('/config',connect.static(__dirname+'/config'))
+              connect().use('/components',connect.static(__dirname+'/components'))
               connect.static(options.base)
-              connect.directory(options.base)
             ]
       production:
         options:
@@ -64,7 +61,7 @@ module.exports = (grunt) ->
         ext: '.html'
         options:
           data:
-            config: require('./config/streetsmap'),
+            config: require('./config/app'),
             debug: true
       production:
         expand: true
@@ -74,7 +71,7 @@ module.exports = (grunt) ->
         ext: '.html'
         options:
           data:
-            config: require('./config/streetsmap')
+            config: require('./config/app')
             debug: false
 
     handlebars:
