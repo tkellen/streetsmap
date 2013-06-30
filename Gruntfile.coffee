@@ -42,11 +42,13 @@ module.exports = (grunt) ->
         options:
           middleware: (connect, options) ->
             [
+              # allow requirejs to find deps async
               connect().use('/app',connect.static(__dirname+'/app'))
               connect().use('/dist',connect.static(__dirname+'/dist'))
               connect().use('/config',connect.static(__dirname+'/config'))
               connect().use('/components',connect.static(__dirname+'/components'))
               connect.static(options.base)
+              connect.directory(options.base)
             ]
       production:
         options:
