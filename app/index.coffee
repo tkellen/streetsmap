@@ -4,7 +4,7 @@ define (require) ->
   App = require('cs!app/classes/app')
 
   StreetsMap = window.App = new App()
-  StreetsMap.Templates = require('dist/templates')
+  StreetsMap.Templates = require('templates')
   StreetsMap.Data = require('json!config/mapdata.json')
   StreetsMap.Collections =
     Routes: require('cs!app/collections/routes')

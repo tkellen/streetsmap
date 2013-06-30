@@ -6,7 +6,8 @@ define (require) ->
 
     tagName: 'aside'
     events:
-      'change .menuitem': 'click'
+      'change .menuitem': 'routeSwitch'
+      'click .schedule': 'routeSchedule'
 
     keyCodes: [
       { code: 77, show: true,  hide: true } # m key
@@ -53,10 +54,14 @@ define (require) ->
     toggleEvent: (model, value) ->
       if value then @show() else @hide()
 
-    click: (item) ->
+    routeSwitch: (item) ->
       target = $(item.target)
       id = target.attr('id')
       @collection.findWhere({abbr:id}).toggle()
+
+    routeSchedule: (item) ->
+      window.open(item.href)
+      return false
 
     render: ->
       @$el.html(@App.renderTemplate('sidebar', {routes:@collection.toJSON()}))

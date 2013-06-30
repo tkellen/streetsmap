@@ -1,6 +1,6 @@
 define (require) ->
 
-  config = require('json!config/streetsmap.json')
+  config = require('json!config/app.json')
   Backbone = require('backbone')
 
   Backbone.View.extend

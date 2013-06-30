@@ -19,6 +19,7 @@ require.config({
     json: 'components/requirejs-plugins/src/json',
     cs: 'components/require-cs/cs',
     hammer: 'components/hammerjs/dist/hammer.js',
+    templates: 'dist/templates',
     'coffee-script': 'components/coffee-script/index'
   },
 

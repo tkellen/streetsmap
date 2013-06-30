@@ -8,6 +8,7 @@ define (require) ->
     initialize: ->
       @set('visible', false)
       @set('drawn', false)
+      @set('url', @get('abbr').toLowerCase())
       @on('change:visible', @toggleEvent)
 
     show: ->

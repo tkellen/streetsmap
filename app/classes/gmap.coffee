@@ -1,8 +1,7 @@
 define (require) ->
 
   $ = require('domlib')
-  _ = require('lodash')
-  config = require('json!config/streetsmap.json')
+  config = require('json!config/app.json')
 
   GMap = {}
 
@@ -14,7 +13,7 @@ define (require) ->
     document.body.appendChild(script)
 
   GMap.buildPath = (points) ->
-    _.map points, (point) ->
+    points.map (point) ->
       new google.maps.LatLng(point[0], point[1])
 
   GMap.buildPolyline = (options) ->
