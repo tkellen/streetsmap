@@ -7,7 +7,7 @@ define (require) ->
     tagName: 'aside'
     events:
       'change .menuitem': 'routeSwitch'
-      'click .schedule': 'routeSchedule'
+      'click .route': 'subNav'
 
     keyCodes: [
       { code: 77, show: true,  hide: true } # m key
@@ -18,7 +18,9 @@ define (require) ->
 
     initialize: (app) ->
       @App = app
-      @model = new Backbone.Model({visible:false})
+      @model = new Backbone.Model({
+        visible:false
+      })
       @collection = @App.Collections.Routes
       @listenTo(@App, 'keydown', @keydown)
       @listenTo(@App, 'toggleMenu', @toggle)
@@ -54,14 +56,13 @@ define (require) ->
     toggleEvent: (model, value) ->
       if value then @show() else @hide()
 
-    routeSwitch: (item) ->
-      target = $(item.target)
-      id = target.attr('id')
-      @collection.findWhere({abbr:id}).toggle()
+    routeSwitch: (event) ->
+      route = @collection.get($(event.target).data('cid'))
+      route.toggle()
 
-    routeSchedule: (item) ->
-      window.open(item.href)
-      return false
+    subNav: (event) ->
+      target = $(event.target).attr('id')
+      @collection.findWhere({abbr:target}).trigger('toggleNav')
 
     render: ->
       @$el.html(@App.renderTemplate('sidebar', {routes:@collection.toJSON()}))

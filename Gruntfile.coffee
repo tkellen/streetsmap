@@ -5,14 +5,13 @@ module.exports = (grunt) ->
 
     stylus:
       css:
-        src: 'app/assets/css/style.styl'
+        src: 'app/styles/style.styl'
         dest: 'public/style.css'
 
     copy:
-      images:
+      assets:
         expand: true
-        cwd: 'app/assets'
-        src: 'img/**/*'
+        src: 'assets/**/*'
         dest: 'public'
 
     watch:
@@ -25,7 +24,7 @@ module.exports = (grunt) ->
                 'app/views/*',
                 'app/collections/*']
       css:
-        files: ['app/assets/css/*']
+        files: ['app/styles/*']
         tasks: ['stylus']
       jade:
         files: ['app/pages/*']
@@ -33,6 +32,9 @@ module.exports = (grunt) ->
       handlebars:
         files: ['app/templates/*']
         tasks: ['handlebars']
+
+    clean:
+      assets: ['public/assets']
 
     connect:
       options:
@@ -45,8 +47,10 @@ module.exports = (grunt) ->
               # allow requirejs to find deps async
               connect().use('/app',connect.static(__dirname+'/app'))
               connect().use('/config',connect.static(__dirname+'/config'))
-              connect().use('/public',connect.static(__dirname+'/public'))
               connect().use('/components',connect.static(__dirname+'/components'))
+              connect().use('/public',connect.static(__dirname+'/public'))
+              # allow assets to be used without copying
+              connect().use('/assets',connect.static(__dirname+'/assets'))
               connect.static(options.base)
               connect.directory(options.base)
             ]
@@ -100,7 +104,6 @@ module.exports = (grunt) ->
           optimize: 'uglify2'
 
   grunt.registerTask('work', ['jade:debug', 'handlebars', 'stylus', 'connect:debug', 'watch'])
-  grunt.registerTask('production', ['jade:production', 'handlebars', 'requirejs:production', 'stylus', 'connect:production:keepalive'])
-  grunt.registerTask('noop',->)
+  grunt.registerTask('production', ['clean', 'copy', 'jade:production', 'handlebars', 'requirejs:production', 'stylus', 'connect:production:keepalive'])
   grunt.registerTask('default', ['work'])
 

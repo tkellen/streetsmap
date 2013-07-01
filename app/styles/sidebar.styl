@@ -1,0 +1,56 @@
+aside
+  position: absolute
+  width: 325px
+  top: 0
+  left: 0
+  bottom: 0
+  box-shadow: 0 0 5px #000
+  background: darken(menuColor, 20%)
+  z-index: 100
+  display: none
+  overflow-y: scroll
+
+  h2
+    line-height: headerHeight
+    color: #fff
+    font-size: 18px
+    padding: 0 15px
+    border-bottom: 1px solid #111
+
+  nav
+    ul
+      border-bottom: 1px solid lighten(menuColor, 5%)
+
+    li.route
+      cursor: s-resize
+      height: 25px
+      line-height: 25px
+      background: darken(menuColor, 10%)
+      display: block
+      padding: 10px 15px
+      border-top: 1px solid darken(menuColor, 5%)
+      border-bottom: 1px solid darken(menuColor, 25%)
+      text-decoration: none
+      color: #fff
+      overflow: hidden
+      transition: height .1s linear;
+      &.open
+        cursor: n-resize
+        height: 100px
+      &:hover
+        background: darken(menuColor, 25%)
+        border-top: 1px solid darken(menuColor, 40%)
+        border-bottom: 1px solid darken(menuColor, 35%)
+      .subnav
+        margin-top: 10px
+        border: none
+
+.icon {
+  float: left;
+  height: 18px
+  width: 18px
+  border-radius: 1px
+
+  margin: 4px 8px 0 0px
+}
+
