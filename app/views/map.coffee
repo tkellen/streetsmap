@@ -2,6 +2,7 @@ define (require) ->
 
   config = require('cjs!config/app')
   Backbone = require('backbone')
+  GMap = require('cs!app/classes/gmap')
 
   Backbone.View.extend
 
@@ -31,16 +32,7 @@ define (require) ->
         @App.trigger('hideStops')
 
     insert: ->
-      @instance = new google.maps.Map @el,
-        zoom: config.map.zoom,
-        center: new google.maps.LatLng(
-          config.map.center.lat,
-          config.map.center.lng
-        )
-        keyboardShortcuts: false
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-        scaleControl: true
-      google.maps.event.addListener(@instance, 'zoom_changed', => @zoom())
+      @instance = GMap.buildMap(@el, config.map).on('zoom_changed', => @zoom())
       @collection.showAll()
       @render()
 

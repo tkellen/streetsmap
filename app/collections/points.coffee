@@ -8,11 +8,3 @@ define (require) ->
 
     initialize: (models, app) ->
       @App = app
-      @listenTo(@App, 'showStops', @showStops)
-      @listenTo(@App, 'hideStops', @hideStops)
-
-    showStops: ->
-      console.log('showing stops')
-
-    hideStops: ->
-      console.log('hiding stops')

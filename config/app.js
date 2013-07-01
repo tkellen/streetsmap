@@ -7,6 +7,13 @@ module.exports = {
     center: {
       lat: 45.5600,
       lng: -94.1576
+    },
+    keyboardShortcuts: false,
+    scaleControl: true,
+    icons: {
+      timePoint: {
+        url: '/assets/img/timepoint.png'
+      }
     }
   },
   scheduleLink: function(input) {
