@@ -11,6 +11,7 @@
     "hammerjs": "~1.0.5",
     "backbone": "~1.0.0",
     "zepto": "~1.0.0",
-    "handlebars": "~1.0.0"
+    "handlebars": "~1.0.0",
+    "cjs": "latest"
   }
 }

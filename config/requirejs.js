@@ -15,12 +15,16 @@ require.config({
     lodash: 'components/lodash/lodash',
     backbone: 'components/backbone/backbone',
     handlebars: 'components/handlebars/handlebars',
+    hammer: 'components/hammerjs/dist/hammer.js',
+    templates: 'public/templates',
+
+    // loader plugins
+    'amd-loader': 'components/amd-loader/amd-loader',
+    'coffee-script': 'components/coffee-script/index',
     text: 'components/requirejs-plugins/lib/text',
     json: 'components/requirejs-plugins/src/json',
-    cs: 'components/require-cs/cs',
-    hammer: 'components/hammerjs/dist/hammer.js',
-    templates: 'dist/templates',
-    'coffee-script': 'components/coffee-script/index'
+    cjs: 'components/cjs/cjs',
+    cs: 'components/require-cs/cs'
   },
 
   // load non-amd dependencies

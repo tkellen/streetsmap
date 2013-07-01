@@ -1,6 +1,6 @@
 define (require) ->
 
-  config = require('json!config/app.json')
+  config = require('cjs!config/app')
   Backbone = require('backbone')
 
   Backbone.View.extend

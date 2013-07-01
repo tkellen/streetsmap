@@ -2,9 +2,9 @@
   <ul>
     <li>Route Control</li>
     {{#each routes}}
-    <li>
+    <li class="route">
       <div class="icon" style="background-color:{{color}}"></div>
-      <a href="/{{url}}.php" class="schedule">{{name}}</a>
+      {{name}}
       <div class="menuitem toggle">
         <input type="checkbox" name="{{abbr}}" id="{{abbr}}" value={{id}} {{#if visible}}checked="checked"{{/if}}/>
         <span class="btn"></span>

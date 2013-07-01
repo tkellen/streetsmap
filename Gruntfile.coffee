@@ -6,14 +6,14 @@ module.exports = (grunt) ->
     stylus:
       css:
         src: 'app/assets/css/style.styl'
-        dest: 'dist/style.css'
+        dest: 'public/style.css'
 
     copy:
       images:
         expand: true
         cwd: 'app/assets'
         src: 'img/**/*'
-        dest: 'dist'
+        dest: 'public'
 
     watch:
       options:
@@ -37,29 +37,29 @@ module.exports = (grunt) ->
     connect:
       options:
         port: 8000
-        base: 'dist'
+        base: 'public'
       debug:
         options:
           middleware: (connect, options) ->
             [
               # allow requirejs to find deps async
               connect().use('/app',connect.static(__dirname+'/app'))
-              connect().use('/dist',connect.static(__dirname+'/dist'))
               connect().use('/config',connect.static(__dirname+'/config'))
+              connect().use('/public',connect.static(__dirname+'/public'))
               connect().use('/components',connect.static(__dirname+'/components'))
               connect.static(options.base)
               connect.directory(options.base)
             ]
       production:
         options:
-          base: 'dist'
+          base: 'public'
 
     jade:
       debug:
         expand: true
         cwd: 'app/pages'
         src: '*.jade'
-        dest: 'dist'
+        dest: 'public'
         ext: '.html'
         options:
           data:
@@ -69,7 +69,7 @@ module.exports = (grunt) ->
         expand: true
         cwd: 'app/pages'
         src: '*.jade'
-        dest: 'dist'
+        dest: 'public'
         ext: '.html'
         options:
           data:
@@ -79,7 +79,7 @@ module.exports = (grunt) ->
     handlebars:
       templates:
         src: 'app/templates/*.hbs'
-        dest: 'dist/templates.js'
+        dest: 'public/templates.js'
         options:
           amd: true,
           processName: (name) ->
@@ -90,7 +90,7 @@ module.exports = (grunt) ->
         baseUrl: '',
         mainConfigFile: 'config/requirejs.js',
         name: 'components/almond/almond',
-        out: 'dist/streetsmap.js'
+        out: 'public/streetsmap.js'
 
       debug:
         options:

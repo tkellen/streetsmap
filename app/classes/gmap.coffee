@@ -1,7 +1,7 @@
 define (require) ->
 
   $ = require('domlib')
-  config = require('json!config/app.json')
+  config = require('cjs!config/app')
 
   GMap = {}
 

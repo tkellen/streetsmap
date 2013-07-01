@@ -1,4 +1,4 @@
-{
+module.exports = {
   "title": "Testing & stuff",
   "description": "123",
   "apikey": "AIzaSyCuIy2sg0FV6hWvjXor7TEY1B0iJFqmKPc",
@@ -9,4 +9,4 @@
       "lng": -94.1576
     }
   }
-}
+};
