@@ -7,11 +7,10 @@ define (require) ->
   Backbone.Model.extend
 
     initialize: ->
-      @set('routeOn', false)
-      @set('navOn', false)
+      @set('visible', false)
       @set('drawn', false)
+      @set('navOn', false)
       @set('url', config.scheduleLink(@toJSON()))
-      @on('change:routeVisible', -> if value then @show() else @hide())
 
     toggle: ->
       @set('visible', !@get('visible'))
@@ -22,10 +21,10 @@ define (require) ->
           path: GMap.buildPath(@get('polyline'))
           color: @get('color')
         )
-      @set('routeOn', true)
+      @set('visible', true)
       @set('drawn', true)
       @get('instance').setMap(@collection.App.map())
 
     hide: ->
-      @set('routeOn', false)
+      @set('visible', false)
       @get('instance').setMap(null)

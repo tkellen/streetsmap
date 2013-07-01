@@ -2,11 +2,11 @@
   <h2>Route Control</h2>
   <ul>
     {{#each routes}}
-    <li class="route closed" data-id="{{id}}">
+    <li class="route closed" data-cid="{{id}}">
       <div class="icon" style="background-color:{{color}}"></div>
       {{name}}
       <div class="menuitem toggle">
-        <input type="checkbox" data-id="{{id}}" class="routeswitch" {{#if routeOn}}checked="checked"{{/if}}/>
+        <input type="checkbox" class="routeswitch" {{#if visible}}checked="checked"{{/if}}/>
         <span class="btn"></span>
         <span class="labels"></span>
         <span class="bg"></span>

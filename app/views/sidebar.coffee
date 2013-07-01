@@ -24,8 +24,7 @@ define (require) ->
       @collection = @App.Collections.Routes
       @listenTo(@App, 'keydown', @keydown)
       @listenTo(@App, 'toggleMenu', @toggle)
-      @listenTo(@model, 'change:visible', @toggleEvent)
-      @listenTo(@collection, 'change', @render)
+      @listenTo(@model, 'change:visible', @changeVisible)
       @render()
       $('body').prepend(@$el)
 
@@ -42,6 +41,13 @@ define (require) ->
             visible = false
           @model.set('visible', visible)
 
+    changeVisible: (model, value) ->
+      @render()
+      if value then @show() else @hide()
+
+    toggle: ->
+      @model.set('visible', !@model.get('visible'))
+
     show: ->
       @$el.show().animate({marginLeft:0}, 100)
       $('body').animate({marginLeft:325}, 100)
@@ -50,19 +56,15 @@ define (require) ->
       @$el.animate({marginLeft:-325}, {duration:100, complete:=>@$el.hide()})
       $('body').animate({marginLeft:0}, 100)
 
-    toggle: ->
-      @model.set('visible', !@model.get('visible'))
-
-    toggleEvent: (model, value) ->
-      if value then @show() else @hide()
-
     routeSwitch: (event) ->
-      route = @collection.get($(event.target).data('cid'))
-      route.toggle()
+      route = $(event.target).closest('.route').data('cid')
+      @collection.get(route).toggle()
 
     subNav: (event) ->
-      target = $(event.target).attr('id')
-      @collection.findWhere({abbr:target}).trigger('toggleNav')
+      item = $(event.target)
+      if item.hasClass('route')
+        item.toggleClass('open')
+        @collection.get(item.data('cid')).set('navOn',item.hasClass('open'))
 
     render: ->
       @$el.html(@App.renderTemplate('sidebar', {routes:@collection.toJSON()}))
