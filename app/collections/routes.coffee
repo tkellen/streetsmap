@@ -8,8 +8,14 @@ define (require) ->
 
     initialize: (models, app) ->
       @App = app
-      @listenTo(@App, 'showStops', @showStops)
-      @listenTo(@App, 'hideStops', @hideStops)
+      @listenTo(@App, 'showAllStops', @showAllStops)
+      @listenTo(@App, 'hideAllStops', @hideAllStops)
 
     showAll: ->
       @forEach (item) -> item.show()
+
+    showAllStops: ->
+      @forEach (item) -> item.showStops()
+
+    hideAllStops: ->
+      @forEach (item) -> item.hideStops()

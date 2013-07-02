@@ -1,8 +1,12 @@
 define (require) ->
 
   GMap = require('cs!app/classes/gmap')
-  $ = require('domlib')
   _ = require('lodash')
+  $ = require('domlib')
+
+  # not assigned to anything because jquery plugins
+  # automatically attach to the jquery namespace
+  require('hammer')
 
   App = ->
     # Allow event emitting on the application namespace
@@ -10,8 +14,14 @@ define (require) ->
     @
 
   App::init = ->
-    $(window).on('resize', => @trigger('resize'))
-    $(document).on('keydown', (e) => @trigger('keydown', e.which))
+    $(window).on 'resize', =>
+      @trigger('resize')
+
+    $(document).on 'keydown', (e) =>
+      @trigger('keydown', e.which)
+
+    document.body.addEventListener 'touchmove', (e) ->
+      e.preventDefault() if !$(e.target).closest('nav').hasClass('scrollable')
 
     # load google maps
     GMap.loadAPI(=>@trigger('start'))

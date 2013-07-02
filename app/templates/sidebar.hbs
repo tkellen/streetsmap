@@ -1,17 +1,22 @@
-<nav>
-  <h2>Route Control</h2>
-  <ul>
+<nav class="scrollable">
+  <div class="controls">
+    <a class="menutoggle">toggle menu</a>
+    <input type="button" class="toggleRoutes" value="toggle" style="float:right"/>
+    <h2>Route Control</h2>
+  </div>
+
+  <ul class="routes">
     {{#each routes}}
-    <li class="route closed" data-cid="{{id}}">
+    <li class="route {{#if navOn}}open{{/if}}" data-cid="{{id}}">
       <div class="icon" style="background-color:{{color}}"></div>
       {{name}}
       <div class="menuitem toggle">
-        <input type="checkbox" class="routeswitch" {{#if visible}}checked="checked"{{/if}}/>
+        <input type="checkbox" class="routeSwitch" {{#if visible}}checked="checked"{{/if}}/>
         <span class="btn"></span>
         <span class="labels"></span>
         <span class="bg"></span>
       </div>
-      <ul class="subnav" {{#if navOn}}class="open"{{/if}}>
+      <ul class="subnav">
         <li><a href="{{url}}">download schedule</a></li>
       </ul>
     </li>

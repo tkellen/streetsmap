@@ -21,8 +21,9 @@ define (require) ->
       @listenTo(@Points, 'change:drawn', @drawMarker)
       @listenTo(@Points, 'change:visible', @toggleElement)
 
+
     resize: ->
-      h = $(window).height()-@marginTop
+      h = $(window).height()-45
       w = $(window).width()
       if h != window.height || w != window.width
         @$el.css('height',h)
@@ -32,12 +33,11 @@ define (require) ->
 
     zoom: ->
       if @instance.getZoom() > 13
-        @showStops()
+        @App.trigger('showAllStops')
       else
-        @hideStops()
+        @App.trigger('hideAllStops')
 
     insert: ->
-      @marginTop = @$el.css('marginTop')
       @instance = GMap.create(@el, config.map).on('zoom_changed', => @zoom())
       @Routes.showAll()
       @render()

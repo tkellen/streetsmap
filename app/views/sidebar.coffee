@@ -6,8 +6,10 @@ define (require) ->
 
     tagName: 'aside'
     events:
-      'change .menuitem': 'routeSwitch'
+      'click .toggleRoutes': 'toggleRoutes'
+      'change .routeSwitch': 'routeSwitch'
       'click .route': 'subNav'
+      'click .menutoggle': 'toggle'
 
     keyCodes: [
       { code: 77, show: true,  hide: true } # m key
@@ -26,6 +28,13 @@ define (require) ->
       @listenTo(@App, 'toggleMenu', @toggle)
       @listenTo(@model, 'change:visible', @changeVisible)
       @render()
+
+      @$el.hammer().on 'swiperight', '.menuitem', (e) ->
+        alert(@)
+
+      #@$el.find('.routes').hammer().on 'swiperight', '.routeSwitch', (e) ->
+      #  this.prop('checked',true)
+
       $('body').prepend(@$el)
 
     keydown: (code) ->
@@ -42,23 +51,25 @@ define (require) ->
           @model.set('visible', visible)
 
     changeVisible: (model, value) ->
-      @render()
       if value then @show() else @hide()
 
     toggle: ->
       @model.set('visible', !@model.get('visible'))
 
     show: ->
-      @$el.show().animate({marginLeft:0}, 100)
-      $('body').animate({marginLeft:325}, 100)
+      @render()
+      $('body').addClass('sidebarOpen')
 
     hide: ->
-      @$el.animate({marginLeft:-325}, {duration:100, complete:=>@$el.hide()})
-      $('body').animate({marginLeft:0}, 100)
+      $('body').removeClass('sidebarOpen')
 
     routeSwitch: (event) ->
       route = $(event.target).closest('.route').data('cid')
       @collection.get(route).toggle()
+
+    toggleRoutes: (event) ->
+      $('.routeSwitch').each (idx, item) ->
+        $(item).trigger('click')
 
     subNav: (event) ->
       item = $(event.target)

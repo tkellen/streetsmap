@@ -1,23 +1,33 @@
+.sidebarOpen
+  margin-left: 325px
+  aside
+    left: 0
+
 aside
   position: absolute
   width: 325px
+  left: -325px
   top: 0
-  left: 0
   bottom: 0
   box-shadow: 0 0 5px #000
   background: darken(menuColor, 20%)
   z-index: 100
-  display: none
   overflow-y: scroll
+  transition: left .1s linear
 
-  h2
-    line-height: headerHeight
-    color: #fff
-    font-size: 18px
-    padding: 0 15px
-    border-bottom: 1px solid #111
+  .controls
+    box-sizing: border-box
+    height: headerHeight
+    padding: 10px 10px
+    h2
+      float: left
+      padding: 5px
+      margin-left: 5px
+      color: #fff
+      font-size: 18px
 
   nav
+    border-top: 1px solid #111
     ul
       border-bottom: 1px solid lighten(menuColor, 5%)
 
@@ -33,11 +43,11 @@ aside
       text-decoration: none
       color: #fff
       overflow: hidden
-      transition: height .1s linear;
+      transition: all .1s linear
+      transition-property: height, background-color
       &.open
         cursor: n-resize
         height: 150px
-      &:hover
         background: darken(menuColor, 25%)
         border-top: 1px solid darken(menuColor, 40%)
         border-bottom: 1px solid darken(menuColor, 35%)

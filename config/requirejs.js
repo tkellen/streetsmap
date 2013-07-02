@@ -15,7 +15,7 @@ require.config({
     lodash: 'components/lodash/lodash',
     backbone: 'components/backbone/backbone',
     handlebars: 'components/handlebars/handlebars',
-    hammer: 'components/hammerjs/dist/hammer.js',
+    hammer: 'components/hammerjs/dist/jquery.hammer',
     templates: 'public/templates',
 
     // loader plugins

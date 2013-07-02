@@ -38,6 +38,7 @@ module.exports = (grunt) ->
 
     connect:
       options:
+        hostname: '*'
         port: 8000
         base: 'public'
       debug:
