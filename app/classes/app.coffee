@@ -20,9 +20,6 @@ define (require) ->
     $(document).on 'keydown', (e) =>
       @trigger('keydown', e.which)
 
-    document.body.addEventListener 'touchmove', (e) ->
-      e.preventDefault() if !$(e.target).closest('nav').hasClass('scrollable')
-
     # load google maps
     GMap.loadAPI(=>@trigger('start'))
 

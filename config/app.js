@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'St. Cloud Metro Bus Route Map',
+  title: 'Route Map',
   description: '123',
   apikey: 'AIzaSyCuIy2sg0FV6hWvjXor7TEY1B0iJFqmKPc',
   map: {
