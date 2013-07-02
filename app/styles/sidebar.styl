@@ -17,6 +17,8 @@ aside
   text-size-adjust: none
 
   .controls
+    border-right: 1px solid darken(menuColor, 30%)
+    border-bottom: 1px solid darken(menuColor, 30%)
     box-sizing: border-box
     height: headerHeight
     padding: 10px 10px
@@ -28,7 +30,6 @@ aside
       font-size: 18px
 
   nav
-    border-top: 1px solid #111
     overflow: auto
     position: absolute;
     top: 45px
@@ -53,7 +54,7 @@ aside
       transition: all .1s linear
       transition-property: height, background-color
       &:hover
-        background: darken(menuColor, 15%)
+        background: darken(menuColor, 20%)
         .routename
           text-shadow: 0 0 1px #000
           color: #fff
