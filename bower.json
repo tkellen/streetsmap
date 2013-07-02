@@ -12,6 +12,7 @@
     "backbone": "~1.0.0",
     "zepto": "~1.0.0",
     "handlebars": "~1.0.0",
-    "cjs": "latest"
+    "cjs": "latest",
+    "iscroll": "~4.2.5"
   }
 }

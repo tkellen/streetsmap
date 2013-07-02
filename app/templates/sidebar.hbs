@@ -1,15 +1,15 @@
-<nav class="scrollable">
-  <div class="controls">
-    <a class="menutoggle">toggle menu</a>
-    <input type="button" class="toggleRoutes" value="toggle" style="float:right"/>
-    <h2>Route Control</h2>
-  </div>
+<div class="controls">
+  <a class="menutoggle">toggle menu</a>
+  <input type="button" class="toggleRoutes" value="toggle" style="float:right"/>
+  <h2>Route Control</h2>
+</div>
 
-  <ul class="routes">
+<nav id="routes">
+  <ul>
     {{#each routes}}
     <li class="route {{#if navOn}}open{{/if}}" data-cid="{{id}}">
       <div class="icon" style="background-color:{{color}}"></div>
-      {{name}}
+      <span class="routename">{{name}}</span>
       <div class="menuitem toggle">
         <input type="checkbox" class="routeSwitch" {{#if visible}}checked="checked"{{/if}}/>
         <span class="btn"></span>

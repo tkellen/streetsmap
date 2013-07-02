@@ -13,12 +13,21 @@ define (require) ->
     _.extend(@, Backbone.Events)
     @
 
+  App::touchMode = false;
+
   App::init = ->
     $(window).on 'resize', =>
       @trigger('resize')
 
     $(document).on 'keydown', (e) =>
       @trigger('keydown', e.which)
+
+    $(document).on 'touchmove', (e) ->
+      e.preventDefault()
+
+    # from modernizr
+    if(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch)
+      @touchMode = true
 
     # load google maps
     GMap.loadAPI(=>@trigger('start'))

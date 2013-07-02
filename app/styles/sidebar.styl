@@ -1,19 +1,20 @@
 .sidebarOpen
-  margin-left: 325px
+  margin-left: 320px
   aside
     left: 0
 
 aside
   position: absolute
-  width: 325px
-  left: -325px
+  width: 320px
+  left: -320px
   top: 0
   bottom: 0
   box-shadow: 0 0 5px #000
   background: darken(menuColor, 20%)
   z-index: 100
-  overflow-y: scroll
   transition: left .1s linear
+  user-select: none
+  text-size-adjust: none
 
   .controls
     box-sizing: border-box
@@ -28,11 +29,17 @@ aside
 
   nav
     border-top: 1px solid #111
+    overflow: auto
+    position: absolute;
+    top: 45px
+    left: 0px;
+    bottom: 0px
+    width: 100%
+
     ul
       border-bottom: 1px solid lighten(menuColor, 5%)
 
     li.route
-      cursor: s-resize
       height: 25px
       line-height: 25px
       background: darken(menuColor, 10%)
@@ -41,26 +48,35 @@ aside
       border-top: 1px solid darken(menuColor, 5%)
       border-bottom: 1px solid darken(menuColor, 25%)
       text-decoration: none
-      color: #fff
+      color: #ccc
       overflow: hidden
       transition: all .1s linear
       transition-property: height, background-color
+      &:hover
+        background: darken(menuColor, 15%)
+        .routename
+          text-shadow: 0 0 1px #000
+          color: #fff
       &.open
-        cursor: n-resize
         height: 150px
         background: darken(menuColor, 25%)
         border-top: 1px solid darken(menuColor, 40%)
         border-bottom: 1px solid darken(menuColor, 35%)
+        .routename
+          color: #fff
       .subnav
         margin-top: 10px
         border: none
+    .routename
+      cursor: pointer
+
 
 .icon {
-  float: left;
+  cursor: pointer
+  float: left
   height: 18px
   width: 18px
   border-radius: 1px
-
   margin: 4px 8px 0 0px
 }
 

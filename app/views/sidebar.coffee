@@ -1,6 +1,7 @@
 define (require) ->
 
   Backbone = require('backbone')
+  iScroll = require('iscroll')
 
   Backbone.View.extend
 
@@ -8,7 +9,7 @@ define (require) ->
     events:
       'click .toggleRoutes': 'toggleRoutes'
       'change .routeSwitch': 'routeSwitch'
-      'click .route': 'subNav'
+      'click .routename': 'subNav'
       'click .menutoggle': 'toggle'
 
     keyCodes: [
@@ -26,16 +27,18 @@ define (require) ->
       @collection = @App.Collections.Routes
       @listenTo(@App, 'keydown', @keydown)
       @listenTo(@App, 'toggleMenu', @toggle)
+      @listenTo(@App, 'routesCreated', @insert)
       @listenTo(@model, 'change:visible', @changeVisible)
+
+    insert: ->
       @render()
-
-      @$el.hammer().on 'swiperight', '.menuitem', (e) ->
-        alert(@)
-
-      #@$el.find('.routes').hammer().on 'swiperight', '.routeSwitch', (e) ->
-      #  this.prop('checked',true)
-
       $('body').prepend(@$el)
+      @iScroll = new iScroll(@$el.find('#routes').get(0), {
+        hScroll: false
+        hideScrollbar: false
+      })
+      # ensure iScroll has correct height continuously
+      setInterval((=>@iScroll.refresh()), 250)
 
     keydown: (code) ->
       visible = @model.get('visible')
@@ -57,7 +60,6 @@ define (require) ->
       @model.set('visible', !@model.get('visible'))
 
     show: ->
-      @render()
       $('body').addClass('sidebarOpen')
 
     hide: ->
@@ -73,9 +75,10 @@ define (require) ->
 
     subNav: (event) ->
       item = $(event.target)
-      if item.hasClass('route')
-        item.toggleClass('open')
-        @collection.get(item.data('cid')).set('navOn',item.hasClass('open'))
+      if item.hasClass('routename')
+        route = item.closest('.route')
+        route.toggleClass('open')
+        @collection.get(route.data('cid')).set('navOn',route.hasClass('open'))
 
     render: ->
       @$el.html(@App.renderTemplate('sidebar', {routes:@collection.toJSON()}))

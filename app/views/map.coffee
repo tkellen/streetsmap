@@ -40,6 +40,10 @@ define (require) ->
     insert: ->
       @instance = GMap.create(@el, config.map).on('zoom_changed', => @zoom())
       @Routes.showAll()
+      # fire this to signal sidebar that it should render.
+      # this is necessary because the sidebar state is based
+      # on the visibility of routes on the map
+      @App.trigger('routesCreated')
       @render()
       $('body').append(@el)
 

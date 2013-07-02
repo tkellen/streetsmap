@@ -16,6 +16,7 @@ require.config({
     backbone: 'components/backbone/backbone',
     handlebars: 'components/handlebars/handlebars',
     hammer: 'components/hammerjs/dist/jquery.hammer',
+    iscroll: 'components/iscroll/src/iscroll',
     templates: 'public/templates',
 
     // loader plugins
@@ -31,6 +32,9 @@ require.config({
   shim: {
     domlib: {
       exports: '$'
+    },
+    iscroll: {
+      exports: 'iScroll'
     },
     backbone: {
       deps: ['domlib', 'lodash'],
