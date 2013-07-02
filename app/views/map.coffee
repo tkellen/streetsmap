@@ -10,11 +10,16 @@ define (require) ->
 
     initialize: (app) ->
       @App = app
-      @collection = @App.Collections.Routes
-      @marginTop = @$el.css('marginTop')
+      @Routes = @App.Collections.Routes
+      @Points = @App.Collections.Points
       @listenTo(@App, 'start', @insert)
       @listenTo(@App, 'resize', @render)
-      $('body').append(@el)
+      @listenTo(@App, 'drawPoint', @drawPoint)
+      @listenTo(@App, 'markerClick', @markerClick)
+      @listenTo(@Routes, 'change:drawn', @drawRoute)
+      @listenTo(@Routes, 'change:visible', @toggleElement)
+      @listenTo(@Points, 'change:drawn', @drawMarker)
+      @listenTo(@Points, 'change:visible', @toggleElement)
 
     resize: ->
       h = $(window).height()-@marginTop
@@ -27,15 +32,45 @@ define (require) ->
 
     zoom: ->
       if @instance.getZoom() > 13
-        @App.trigger('showStops')
+        @showStops()
       else
-        @App.trigger('hideStops')
+        @hideStops()
 
     insert: ->
-      @instance = GMap.buildMap(@el, config.map).on('zoom_changed', => @zoom())
-      @collection.showAll()
+      @marginTop = @$el.css('marginTop')
+      @instance = GMap.create(@el, config.map).on('zoom_changed', => @zoom())
+      @Routes.showAll()
       @render()
+      $('body').append(@el)
 
     render: ->
       @resize()
       @
+
+    drawRoute: (model) ->
+      # map point IDs to point models
+      model.set('timePoints', model.get('timePoints').map (item) => @Points.get(item))
+      model.set('busStops', model.get('busStops').map (item) => @Points.get(item))
+      # create polyline
+      route = GMap.polyline
+        path: GMap.path(model.get('polyline'))
+        color: model.get('color')
+      # assign google maps element for future access
+      model.set('el', route)
+      # show timepoints only
+      model.showTimePoints()
+      model
+
+    drawMarker: (model) ->
+      # create marker
+      marker = GMap.marker
+        position: GMap.latLng(model.get('lat'), model.get('lng'))
+      # assign google maps element for future access
+      model.set('el', marker)
+      model
+
+    toggleElement: (model, value) ->
+      if value
+        model.get('el').setMap(@instance)
+      else
+        model.get('el').setMap(null)

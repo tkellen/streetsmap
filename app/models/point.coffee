@@ -1,7 +1,6 @@
 define (require) ->
 
   Backbone = require('backbone')
-  GMap = require('cs!app/classes/gmap')
 
   Backbone.Model.extend
 
@@ -12,11 +11,10 @@ define (require) ->
 
     show: ->
       if !@get('drawn')
-        @set('instance', GMap.buildMarker(@toJSON()))
-      @set('visible', true)
-      @get('instance').setMap(@App.map())
+        @set('drawn', true)
+      if !@get('visible')
+        @set('visible', true)
 
     hide: ->
       if @get('visible')
         @set('visible', false)
-        @get('instance').setMap(null)
