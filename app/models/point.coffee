@@ -5,9 +5,19 @@ define (require) ->
   Backbone.Model.extend
 
     initialize: ->
-      @App = @collection.App
-      @set('visible', false)
-      @set('drawn', false)
+      @set({
+        visible: false
+        drawn: false
+        relationsMapped: false
+        type: false
+      })
+
+    relate: (routes) ->
+      if !@get('relationsMapped')
+        @set 'usedBy', @get('usedBy').map (route) =>
+          routes.get(route)
+        @set('relationsMapped', true)
+      @
 
     show: ->
       if !@get('drawn')

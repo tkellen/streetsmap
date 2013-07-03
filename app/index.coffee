@@ -12,8 +12,8 @@ define (require) ->
   StreetsMap = window.App = new App()
   StreetsMap.Templates = require('templates')
   StreetsMap.Collections =
-    Points: new Points(Data.Points, StreetsMap)
-    Routes: new Routes(Data.Routes, StreetsMap)
+    Points: new Points(Data.points, StreetsMap)
+    Routes: new Routes(Data.routes, StreetsMap)
   StreetsMap.Views =
     Sidebar: new Sidebar(StreetsMap)
     Header: new Header(StreetsMap)

@@ -17,10 +17,9 @@ define (require) ->
       @listenTo(@App, 'drawPoint', @drawPoint)
       @listenTo(@App, 'markerClick', @markerClick)
       @listenTo(@Routes, 'change:drawn', @drawRoute)
-      @listenTo(@Routes, 'change:visible', @toggleElement)
+      @listenTo(@Routes, 'change:visible', @toggleRoute)
       @listenTo(@Points, 'change:drawn', @drawMarker)
-      @listenTo(@Points, 'change:visible', @toggleElement)
-
+      @listenTo(@Points, 'change:visible', @toggleStops)
 
     resize: ->
       h = $(window).height()-45
@@ -53,8 +52,7 @@ define (require) ->
 
     drawRoute: (model) ->
       # map point IDs to point models
-      model.set('timePoints', model.get('timePoints').map (item) => @Points.get(item))
-      model.set('busStops', model.get('busStops').map (item) => @Points.get(item))
+      model.relate(@Points)
       # create polyline
       route = GMap.polyline
         path: GMap.path(model.get('polyline'))
@@ -66,14 +64,32 @@ define (require) ->
       model
 
     drawMarker: (model) ->
-      # create marker
+      icon = config.map.icon['timePoint']
       marker = GMap.marker
         position: GMap.latLng(model.get('lat'), model.get('lng'))
-      # assign google maps element for future access
+        icon:
+          url: icon.url
+          size: new google.maps.Size(icon.size[0], icon.size[1])
+          origin: new google.maps.Point(icon.origin[0], icon.origin[1])
+          anchor: new google.maps.Point(icon.anchor[0], icon.anchor[1])
+
+      infoWindow = GMap.infoWindow
+        content: @App.renderTemplate('marker', model.toJSON())
+
+      marker.on('click', => infoWindow.open(@instance,marker))
+
       model.set('el', marker)
       model
 
-    toggleElement: (model, value) ->
+    toggleRoute: (model, value) ->
+      if value
+        model.get('el').setMap(@instance)
+        model.showTimePoints()
+      else
+        model.get('el').setMap(null)
+        model.hideTimePoints()
+
+    toggleStops: (model, value) ->
       if value
         model.get('el').setMap(@instance)
       else

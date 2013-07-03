@@ -3,7 +3,7 @@ module.exports = {
   description: '123',
   apikey: 'AIzaSyCuIy2sg0FV6hWvjXor7TEY1B0iJFqmKPc',
   map: {
-    zoom: 11,
+    zoom: 13,
     center: {
       lat: 45.5600,
       lng: -94.1576
@@ -15,9 +15,18 @@ module.exports = {
       opacity: 0.6,
       weight: 6
     },
-    icons: {
+    icon: {
       timePoint: {
-        url: '/assets/img/timepoint.png'
+        url: '/assets/img/timepoint.png',
+        size: [16,16],
+        origin: [0,0],
+        anchor: [8,8]
+      },
+      busStop: {
+        url: '/assets/img/busstop.png',
+        size: [10,10],
+        origin: [0,0],
+        anchor: [5,5]
       }
     }
   },

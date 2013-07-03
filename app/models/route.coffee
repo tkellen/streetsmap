@@ -6,14 +6,29 @@ define (require) ->
   Backbone.Model.extend
 
     initialize: ->
-      @App = @collection.App
-      @set('visible', false)
-      @set('drawn', false)
-      @set('navOn', false)
-      @set('url', config.scheduleLink(@toJSON()))
+      @set({
+        visible: false
+        drawn: false
+        navOn: false
+        relationsMapped: false
+        url: config.scheduleLink(@toJSON())
+      })
 
     toggle: ->
       @set('visible', !@get('visible'))
+
+    relate: (points) ->
+      if !@get('relationsMapped')
+        @set 'timePoints', @get('timePoints').map (item) =>
+          point = points.get(item)
+          point.relate(@collection)
+          point
+        @set 'busStops', @get('busStops').map (item) =>
+          point = points.get(item)
+          point.relate(@collection)
+          point
+        @set('relationsMapped', true)
+      @
 
     show: ->
       if !@get('drawn')
@@ -32,7 +47,8 @@ define (require) ->
       @get('timePoints').forEach (item) -> item.hide()
 
     showStops: ->
-      @get('busStops').forEach (item) -> item.show()
+      if @get('visible')
+        @get('busStops').forEach (item) -> item.show()
 
     hideStops: ->
       @get('busStops').forEach (item) -> item.hide()
