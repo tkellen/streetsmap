@@ -15,7 +15,7 @@ define (require) ->
       @forEach (item) -> item.show()
 
     showAllStops: ->
-      @forEach (item) -> item.showStops()
+      @forEach (item) -> item.showBusStops()
 
     hideAllStops: ->
-      @forEach (item) -> item.hideStops()
+      @forEach (item) -> item.hideBusStops()

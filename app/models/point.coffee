@@ -1,30 +1,63 @@
 define (require) ->
 
   Backbone = require('backbone')
+  Handlebars = require('handlebars')
+
+  Handlebars.registerHelper('usedBy', (context, options) ->
+    ret = "";
+    i = 0
+    j = context.length
+    while i < j
+      ret = ret + options.fn(context[i])
+      i++
+    ret
 
   Backbone.Model.extend
 
     initialize: ->
+      @App = @collection.App
       @set({
-        visible: false
-        drawn: false
-        relationsMapped: false
-        type: false
+        relationsMapped: false # have we mapped the usedBy field to route models?
+        drawn: false # does this have a google maps element yet?
+        visible: false # is this point visible on the map?
+        visibleCount: 0 # how many routes this point visible for?
+        asBusStop: 0 # how many routes is this point visible as a busStop for?
+        asTimePoint: 0 # how many routes is this point visible as a timePoint for?
+        icon: null
       })
 
-    relate: (routes) ->
-      if !@get('relationsMapped')
-        @set 'usedBy', @get('usedBy').map (route) =>
-          routes.get(route)
-        @set('relationsMapped', true)
-      @
+    # because time points and bus stops are shared across multiple routes,
+    # we must maintain a count of how many routes it is currently visible
+    # for.  without this, turning off a route might hide a time point or
+    # bus stop that is used by another.
+    visibleAs: (type, increment) ->
+      @set(type, @get(type)+increment)
+      asTimePoint = @get('asTimePoint')
+      asBusStop = @get('asBusStop')
+      @set('icon', if asTimePoint >= asBusStop then 'timePoint' else 'busStop')
+      visibleCount = asTimePoint+asBusStop
+      @set('visibleCount', visibleCount)
+      visibleCount
 
-    show: ->
+    show: (type) ->
+      if !type
+        throw new Error('Type must be specified (asBusStop or asTimePoint).')
+      @visibleAs(type, 1)
       if !@get('drawn')
         @set('drawn', true)
-      if !@get('visible')
-        @set('visible', true)
+      @set('visible', true)
 
-    hide: ->
-      if @get('visible')
+    hide: (type) ->
+      if !type
+        throw new Error('Type must be specified (asBusStop or asTimePoint).')
+      visibleCount = @visibleAs(type, -1)
+      if visibleCount == 0
         @set('visible', false)
+
+    mapRelations: (routes) ->
+      if !@get('relationsMapped')
+        usedBy = @get('usedBy').map (idx) =>
+          routes.at(idx)
+        @set('usedBy', new Backbone.Collection(usedBy))
+        @set('relationsMapped', true)
+      @

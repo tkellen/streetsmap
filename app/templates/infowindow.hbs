@@ -1,0 +1,17 @@
+<div class="infowindow">
+  <h1>{{name}}</h1><br/>
+  <table width=100% border=1>
+    <thead>
+      <tr>
+        <th width=25%>Stop</th>
+        <th>Route</th>
+      </tr>
+    {{#routes usedBy}}
+      <tr>
+        <td>?{{tp ../cid}}</td>
+
+        <td><a href="{{url}}" onclick="window.open(this.href);return false">{{name}}</a></td>
+      </tr>
+    {{/each}}
+  <table>
+</div>

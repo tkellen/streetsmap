@@ -17,9 +17,9 @@ define (require) ->
       @listenTo(@App, 'drawPoint', @drawPoint)
       @listenTo(@App, 'markerClick', @markerClick)
       @listenTo(@Routes, 'change:drawn', @drawRoute)
-      @listenTo(@Routes, 'change:visible', @toggleRoute)
       @listenTo(@Points, 'change:drawn', @drawMarker)
-      @listenTo(@Points, 'change:visible', @toggleStops)
+      @listenTo(@Routes, 'change:visible', @toggleItem)
+      @listenTo(@Points, 'change:visible', @toggleItem)
 
     resize: ->
       h = $(window).height()-45
@@ -31,7 +31,7 @@ define (require) ->
         window.width = w
 
     zoom: ->
-      if @instance.getZoom() > 13
+      if @instance.getZoom() > 14
         @App.trigger('showAllStops')
       else
         @App.trigger('hideAllStops')
@@ -51,20 +51,16 @@ define (require) ->
       @
 
     drawRoute: (model) ->
-      # map point IDs to point models
-      model.relate(@Points)
       # create polyline
       route = GMap.polyline
         path: GMap.path(model.get('polyline'))
         color: model.get('color')
       # assign google maps element for future access
       model.set('el', route)
-      # show timepoints only
-      model.showTimePoints()
       model
 
     drawMarker: (model) ->
-      icon = config.map.icon['timePoint']
+      icon = config.map.icon[model.get('icon')]
       marker = GMap.marker
         position: GMap.latLng(model.get('lat'), model.get('lng'))
         icon:
@@ -74,22 +70,14 @@ define (require) ->
           anchor: new google.maps.Point(icon.anchor[0], icon.anchor[1])
 
       infoWindow = GMap.infoWindow
-        content: @App.renderTemplate('marker', model.toJSON())
+        content: @App.renderTemplate('infowindow', model.toJSON())
 
       marker.on('click', => infoWindow.open(@instance,marker))
 
       model.set('el', marker)
       model
 
-    toggleRoute: (model, value) ->
-      if value
-        model.get('el').setMap(@instance)
-        model.showTimePoints()
-      else
-        model.get('el').setMap(null)
-        model.hideTimePoints()
-
-    toggleStops: (model, value) ->
+    toggleItem: (model, value) ->
       if value
         model.get('el').setMap(@instance)
       else

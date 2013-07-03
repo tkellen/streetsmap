@@ -25,7 +25,7 @@ define (require) ->
     $(document).on 'touchmove', (e) ->
       e.preventDefault()
 
-    # from modernizr
+    # detect if a touchscreen is present to determine what style of scrolling to use in sidebar
     if(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch)
       @touchMode = true
 

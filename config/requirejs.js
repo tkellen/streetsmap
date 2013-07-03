@@ -46,6 +46,6 @@ require.config({
   },
 
   // modules not included in optimized build
-  stubModules: ['cs', 'coffee-script']
+  stubModules: ['amd-loader', 'coffee-script', 'text', 'json', 'cjs', 'cs']
 
 });
