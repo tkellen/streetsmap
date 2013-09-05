@@ -1,16 +1,19 @@
 <div class="infowindow">
   <h1>{{name}}</h1><br/>
-  <table width=100% border=1>
+  <table width=100%>
     <thead>
       <tr>
         <th width=25%>Stop</th>
         <th>Route</th>
       </tr>
-    {{#routes usedBy}}
+    {{#each usedBy}}
       <tr>
-        <td>?{{tp ../cid}}</td>
-
-        <td><a href="{{url}}" onclick="window.open(this.href);return false">{{name}}</a></td>
+        {{#if stopNumber}}
+          <td><div class="timepoint" style="background-color:{{background}};color:{{foreground}}">{{stopNumber}}</div></td>
+        {{else}}
+          <td><div class="buspoint" style="background-color:{{background}};">&nbsp;</div></td>
+        {{/if}}
+        <td>{{name}} (<a href="{{url}}" onclick="window.open(this.href);return false">schedule</a>)</td>
       </tr>
     {{/each}}
   <table>

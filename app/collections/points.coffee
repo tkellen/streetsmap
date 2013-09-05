@@ -8,3 +8,6 @@ define (require) ->
 
     initialize: (models, app) ->
       @App = app
+
+    getTemplateData: ->
+      @toJSON()

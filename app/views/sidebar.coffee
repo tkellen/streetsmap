@@ -81,5 +81,5 @@ define (require) ->
         @collection.get(route.data('cid')).set('navOn',route.hasClass('open'))
 
     render: ->
-      @$el.html(@App.renderTemplate('sidebar', {routes:@collection.toJSON()}))
+      @$el.html(@App.renderTemplate('sidebar', {routes:@collection.getTemplateData()}))
       @

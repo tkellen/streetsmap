@@ -2,15 +2,7 @@ define (require) ->
 
   Backbone = require('backbone')
   Handlebars = require('handlebars')
-
-  Handlebars.registerHelper('usedBy', (context, options) ->
-    ret = "";
-    i = 0
-    j = context.length
-    while i < j
-      ret = ret + options.fn(context[i])
-      i++
-    ret
+  Util = require('cs!app/classes/util')
 
   Backbone.Model.extend
 
@@ -61,3 +53,16 @@ define (require) ->
         @set('usedBy', new Backbone.Collection(usedBy))
         @set('relationsMapped', true)
       @
+
+    getTemplateData: ->
+      {
+        name: @get('name')
+        usedBy: @get('usedBy').map (route) =>
+          {
+            name: route.get('name')
+            background: route.get('color')
+            foreground: Util.lumosity(route.get('color'))
+            url: route.get('url')
+            stopNumber: route.pointStopNumber(@)
+          }
+      }

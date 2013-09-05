@@ -70,7 +70,7 @@ define (require) ->
           anchor: new google.maps.Point(icon.anchor[0], icon.anchor[1])
 
       infoWindow = GMap.infoWindow
-        content: @App.renderTemplate('infowindow', model.toJSON())
+        content: @App.renderTemplate('infowindow', model.getTemplateData())
 
       marker.on('click', => infoWindow.open(@instance,marker))
 

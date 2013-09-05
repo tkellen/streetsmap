@@ -65,3 +65,9 @@ define (require) ->
       if @get('busStopsVisible')
         @set('busStopsVisible', false)
         @get('busStops').each (item) -> item.hide('asBusStop')
+
+    pointStopNumber: (point) ->
+      @get('timePoints').indexOf(point)+1
+
+    getTemplateData: ->
+      @toJSON()

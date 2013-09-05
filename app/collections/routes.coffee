@@ -19,3 +19,6 @@ define (require) ->
 
     hideAllStops: ->
       @forEach (item) -> item.hideBusStops()
+
+    getTemplateData: ->
+      @toJSON()
