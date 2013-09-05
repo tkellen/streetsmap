@@ -17,16 +17,16 @@ module.exports = {
     },
     icon: {
       timePoint: {
-        url: '/assets/img/timepoint.png',
+        url: 'assets/img/timepoint.png',
         size: [16,16],
         origin: [0,0],
         anchor: [8,8]
       },
       busStop: {
-        url: '/assets/img/busstop.png',
-        size: [10,10],
+        url: 'assets/img/busstop.png',
+        size: [12,12],
         origin: [0,0],
-        anchor: [5,5]
+        anchor: [6,6]
       }
     }
   },

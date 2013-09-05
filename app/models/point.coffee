@@ -56,6 +56,7 @@ define (require) ->
 
     getTemplateData: ->
       {
+        cid: @cid
         name: @get('name')
         usedBy: @get('usedBy').map (route) =>
           {

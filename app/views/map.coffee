@@ -1,6 +1,7 @@
 define (require) ->
 
   config = require('cjs!config/app')
+  $ = require('domlib')
   Backbone = require('backbone')
   GMap = require('cs!app/classes/gmap')
 
@@ -20,6 +21,22 @@ define (require) ->
       @listenTo(@Points, 'change:drawn', @drawMarker)
       @listenTo(@Routes, 'change:visible', @toggleItem)
       @listenTo(@Points, 'change:visible', @toggleItem)
+      # store currently open infowindow
+      @currWindow = null
+
+    events:
+      'click .zoomIn': 'zoomInToPoint'
+      'click .zoomOut': 'zoomOutToPoint'
+
+    zoomInToPoint: (e) ->
+      point = @Points.get($(e.target).data('cid'))
+      @instance.setCenter(GMap.latLng(point.get('lat'),point.get('lng')))
+      @instance.setZoom(16)
+
+    zoomOutToPoint: (e) ->
+      point = @Points.get($(e.target).data('cid'))
+      @instance.setCenter(GMap.latLng(point.get('lat'),point.get('lng')))
+      @instance.setZoom(13)
 
     resize: ->
       h = $(window).height()-45
@@ -72,7 +89,13 @@ define (require) ->
       infoWindow = GMap.infoWindow
         content: @App.renderTemplate('infowindow', model.getTemplateData())
 
-      marker.on('click', => infoWindow.open(@instance,marker))
+      marker.on 'click', =>
+        # ignore clicks to currently open window
+        if @currWindow != infoWindow
+          # close open infowindows before opening another
+          @currWindow.close() if @currWindow
+          infoWindow.open(@instance, marker)
+          @currWindow = infoWindow
 
       model.set('el', marker)
       model

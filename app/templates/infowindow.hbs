@@ -16,5 +16,9 @@
         <td>{{name}} (<a href="{{url}}" onclick="window.open(this.href);return false">schedule</a>)</td>
       </tr>
     {{/each}}
-  <table>
+  </table>
+  <div class="zoomControl">
+    <input type="button" class="zoomIn" data-cid="{{cid}}" value="Zoom In Here"/><br/>
+    <input type="button" class="zoomOut" data-cid="{{cid}}" value="Zoom Out"/><br/>
+  </div>
 </div>
