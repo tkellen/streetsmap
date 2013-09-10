@@ -22,7 +22,7 @@ define (require) ->
         @set('drawn', true)
       @set('visible', true)
       @showTimePoints()
-      if @get('busStopsVisible')
+      if @get('busStopsVisible') || @App.Views.Map.instance.getZoom() > 14
         @showBusStops()
 
     hide: ->

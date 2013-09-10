@@ -41,6 +41,7 @@ aside
       border-bottom: 1px solid lighten(menuColor, 5%)
 
     li.route
+      cursor: pointer
       height: 25px
       line-height: 25px
       background: darken(menuColor, 10%)
@@ -59,23 +60,44 @@ aside
           text-shadow: 0 0 1px #000
           color: #fff
       &.open
-        height: 75px
+        height: 60px
         background: darken(menuColor, 25%)
         border-top: 1px solid darken(menuColor, 40%)
         border-bottom: 1px solid darken(menuColor, 35%)
         .routename
           color: #fff
+          .arrow
+            top: -10px
+            border-left: 5px solid transparent
+            border-right: 5px solid transparent
+            border-bottom: 5px solid #fff
+            border-top: none !important
       .subnav
         margin-top: 10px
         border: none
-    .routename
-      cursor: pointer
+    .arrow
+      position: relative
+      left: 5px
+      top: 15px
+      width: 0
+      height: 0
+      border-left: 5px solid transparent
+      border-right: 5px solid transparent
+      border-top: 5px solid #fff
+
+    .schedule
+      padding-left: 25px
+      font-size: 14px
+      color: #fff
+      text-decoration: none
+      background: transparent url('assets/img/document.png') no-repeat 5px center
+
 
 
 .icon {
   cursor: pointer
   float: left
-  height: 18px
+  height: 20px
   width: 18px
   border-radius: 1px
   margin: 4px 8px 0 0px

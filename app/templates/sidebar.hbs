@@ -9,7 +9,7 @@
     {{#each routes}}
     <li class="route {{#if navOn}}open{{/if}}" data-cid="{{id}}">
       <div class="icon" style="background-color:{{color}}"></div>
-      <span class="routename">{{name}}</span>
+      <span class="routename">{{name}}<span class="arrow"></span></span>
       <div class="menuitem toggle">
         <input type="checkbox" class="routeSwitch" {{#if visible}}checked="checked"{{/if}}/>
         <span class="btn"></span>
@@ -17,7 +17,7 @@
         <span class="bg"></span>
       </div>
       <ul class="subnav">
-        <li><a href="{{url}}" rel="external" onclick="window.open(this.href);return false">Download Schedule</a></li>
+        <li><a href="{{url}}" rel="external" class="schedule" onclick="window.open(this.href);return false">View Schedule</a></li>
       </ul>
     </li>
     {{/each}}

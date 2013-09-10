@@ -9,7 +9,8 @@ define (require) ->
     events:
       'click .toggleRoutes': 'toggleRoutes'
       'change .routeSwitch': 'routeSwitch'
-      'click .routename': 'subNav'
+      'touchstart .routeBtn': 'touchSwitch'
+      'click .route': 'subNav'
       'click .menutoggle': 'toggle'
 
     keyCodes: [
@@ -65,7 +66,11 @@ define (require) ->
     hide: ->
       $('body').removeClass('sidebarOpen')
 
+    touchSwitch: (event) ->
+      $(event.target).trigger('click')
+
     routeSwitch: (event) ->
+      window.routeSwitch = event
       route = $(event.target).closest('.route').data('cid')
       @collection.get(route).toggle()
 
@@ -74,8 +79,10 @@ define (require) ->
         $(item).trigger('click')
 
     subNav: (event) ->
-      item = $(event.target)
-      if item.hasClass('routename')
+      # don't toggle subnav when clicking toggle switch
+
+      if !$(event.target).hasClass('routeSwitch') && !$(event.target).hasClass('schedule')
+        item = $(event.target)
         route = item.closest('.route')
         route.toggleClass('open')
         @collection.get(route.data('cid')).set('navOn',route.hasClass('open'))
