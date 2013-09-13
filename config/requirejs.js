@@ -11,7 +11,7 @@ require.config({
 
   // map bower components to nice paths
   paths: {
-    domlib: 'components/zepto/zepto',
+    domlib: 'components/jquery/jquery',
     lodash: 'components/lodash/lodash',
     backbone: 'components/backbone/backbone',
     handlebars: 'components/handlebars/handlebars',
