@@ -12,9 +12,9 @@
       <span class="routename">{{name}}<span class="arrow"></span></span>
       <div class="menuitem toggle routeBtn">
         <input type="checkbox" class="routeSwitch" {{#if visible}}checked="checked"{{/if}}/>
-        <span class="btn"></span>
+        <span class="btn {{#if visible}}on{{/if}}"></span>
         <span class="labels"></span>
-        <span class="bg"></span>
+        <span class="bg {{#if visible}}on{{/if}}"></span>
       </div>
       <ul class="subnav">
         <li><a href="{{url}}" rel="external" class="schedule" onclick="window.open(this.href);return false">View Schedule</a></li>

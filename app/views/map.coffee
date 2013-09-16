@@ -94,11 +94,10 @@ define (require) ->
       model
 
     showWindow: ->
-
+      # render infoWindow if it hasn't been already
       if !@infoWindow
         @infoWindow = GMap.infoWindow
           content: @App.renderTemplate('infowindow', @model.getTemplateData())
-
       # ignore clicks to currently open window
       if @currWindow != @infoWindow
         # close open infowindows before opening another

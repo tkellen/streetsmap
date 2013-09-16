@@ -72,6 +72,9 @@ define (require) ->
     routeSwitch: (event) ->
       window.routeSwitch = event
       route = $(event.target).closest('.route').data('cid')
+      # support browsers which don't support the ~ selector
+      $(event.target).siblings('.btn').toggleClass('on')
+      $(event.target).siblings('.bg').toggleClass('on')
       @collection.get(route).toggle()
 
     toggleRoutes: (event) ->
@@ -80,7 +83,6 @@ define (require) ->
 
     subNav: (event) ->
       # don't toggle subnav when clicking toggle switch
-
       if !$(event.target).hasClass('routeSwitch') && !$(event.target).hasClass('schedule')
         item = $(event.target)
         route = item.closest('.route')
