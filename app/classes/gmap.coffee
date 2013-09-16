@@ -13,22 +13,16 @@ define (require) ->
     script.src = 'http://maps.googleapis.com/maps/api/js?key='+config.apikey+'&sensor=true&callback=__callback'
     document.body.appendChild(script)
 
-  GMap.addEventMethods = (element) ->
-    element.on = (event, method) ->
-      google.maps.event.addListener(element, event, method)
-      element
-    element.off = (event, method) ->
-      google.maps.event.removeListener(element, event, method)
-      element
-    element
-
   GMap.create = (element, options) ->
     options.center = new google.maps.LatLng(
       options.center.lat
       options.center.lng
     )
     map = new google.maps.Map(element, options)
-    @addEventMethods(map)
+    map.on = (event, method) ->
+      google.maps.event.addListener(map, event, method)
+      map
+    map
 
   GMap.path = (points) ->
     points.map (point) ->
@@ -49,9 +43,13 @@ define (require) ->
   GMap.marker = (options) ->
     options = options or {}
     marker = new google.maps.Marker(options)
-    @addEventMethods(marker)
+    marker.on = (event, method) ->
+      google.maps.event.addListener(marker, event, method)
+      marker
+    marker
 
   GMap.infoWindow = (options) ->
+    options = options or {}
     new google.maps.InfoWindow(options)
 
   GMap

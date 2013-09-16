@@ -85,20 +85,26 @@ define (require) ->
           size: new google.maps.Size(icon.size[0], icon.size[1])
           origin: new google.maps.Point(icon.origin[0], icon.origin[1])
           anchor: new google.maps.Point(icon.anchor[0], icon.anchor[1])
-
-      infoWindow = GMap.infoWindow
-        content: @App.renderTemplate('infowindow', model.getTemplateData())
-
-      marker.on 'click', =>
-        # ignore clicks to currently open window
-        if @currWindow != infoWindow
-          # close open infowindows before opening another
-          @currWindow.close() if @currWindow
-          infoWindow.open(@instance, marker)
-          @currWindow = infoWindow
-
+        App: @App
+        model: model
+        currWindow: @currWindow
+        instance: @instance
+      marker.on('click',@showWindow)
       model.set('el', marker)
       model
+
+    showWindow: ->
+
+      if !@infoWindow
+        @infoWindow = GMap.infoWindow
+          content: @App.renderTemplate('infowindow', @model.getTemplateData())
+
+      # ignore clicks to currently open window
+      if @currWindow != @infoWindow
+        # close open infowindows before opening another
+        @currWindow.close() if @currWindow
+        @infoWindow.open(@instance, @)
+        @currWindow = @infoWindow
 
     toggleItem: (model, value) ->
       if value
