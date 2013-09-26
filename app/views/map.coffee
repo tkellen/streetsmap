@@ -87,7 +87,6 @@ define (require) ->
           anchor: new google.maps.Point(icon.anchor[0], icon.anchor[1])
         App: @App
         model: model
-        currWindow: @currWindow
         instance: @instance
       marker.on('click',@showWindow)
       model.set('el', marker)
@@ -99,11 +98,12 @@ define (require) ->
         @infoWindow = GMap.infoWindow
           content: @App.renderTemplate('infowindow', @model.getTemplateData())
       # ignore clicks to currently open window
-      if @currWindow != @infoWindow
+
+      if @App.currWindow != @infoWindow
         # close open infowindows before opening another
-        @currWindow.close() if @currWindow
+        @App.currWindow.close() if @App.currWindow
         @infoWindow.open(@instance, @)
-        @currWindow = @infoWindow
+        @App.currWindow = @infoWindow
 
     toggleItem: (model, value) ->
       if value
