@@ -2,7 +2,7 @@ define (require) ->
 
   $ = require('domlib')
   App = require('cs!app/classes/app')
-  Data = require('json!config/mapdata.json')
+  Data = require('json!config/map.json')
   Points = require('cs!app/collections/points')
   Routes = require('cs!app/collections/routes')
   Sidebar = require('cs!app/views/sidebar')

@@ -1,6 +1,6 @@
 define (require) ->
 
-  config = require('cjs!config/app')
+  CONFIG = require('cjs!config/app')
   $ = require('domlib')
   Backbone = require('backbone')
   GMap = require('cs!app/classes/gmap')
@@ -54,7 +54,7 @@ define (require) ->
         @App.trigger('hideAllStops')
 
     insert: ->
-      @instance = GMap.create(@el, config.map).on('zoom_changed', => @zoom())
+      @instance = GMap.create(@el, CONFIG.map).on('zoom_changed', => @zoom())
       @Routes.showAll()
       # fire this to signal sidebar that it should render.
       # this is necessary because the sidebar state is based
@@ -77,7 +77,7 @@ define (require) ->
       model
 
     drawMarker: (model) ->
-      icon = config.map.icon[model.get('icon')]
+      icon = CONFIG.map.icon[model.get('icon')]
       marker = GMap.marker
         position: GMap.latLng(model.get('lat'), model.get('lng'))
         icon:

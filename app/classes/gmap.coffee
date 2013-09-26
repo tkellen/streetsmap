@@ -1,7 +1,7 @@
 define (require) ->
 
   $ = require('domlib')
-  config = require('cjs!config/app')
+  CONFIG = require('cjs!config/app')
   _ = require('lodash')
 
   GMap = {}
@@ -10,7 +10,7 @@ define (require) ->
     window.__callback = callback
     script = document.createElement('script')
     script.type = 'text/javascript'
-    script.src = 'http://maps.googleapis.com/maps/api/js?key='+config.apikey+'&sensor=true&callback=__callback'
+    script.src = 'http://maps.googleapis.com/maps/api/js?key='+CONFIG.apikey+'&sensor=true&callback=__callback'
     document.body.appendChild(script)
 
   GMap.create = (element, options) ->
@@ -32,9 +32,9 @@ define (require) ->
     options = options or {}
     new google.maps.Polyline(
       path: options.path
-      strokeColor: options.color or config.map.polyline.strokeColor
-      strokeOpacity: options.opacity or config.map.polyline.opacity
-      strokeWeight: options.weight or config.map.polyline.weight
+      strokeColor: options.color or CONFIG.map.polyline.strokeColor
+      strokeOpacity: options.opacity or CONFIG.map.polyline.opacity
+      strokeWeight: options.weight or CONFIG.map.polyline.weight
     )
 
   GMap.latLng = (lat, lng) ->

@@ -68,7 +68,7 @@ module.exports = (grunt) ->
         ext: '.html'
         options:
           data:
-            config: require('./config/app'),
+            CONFIG: require('./config/app'),
             debug: true
       production:
         expand: true
@@ -78,7 +78,7 @@ module.exports = (grunt) ->
         ext: '.html'
         options:
           data:
-            config: require('./config/app')
+            CONFIG: require('./config/app')
             debug: false
 
     handlebars:

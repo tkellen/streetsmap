@@ -1,6 +1,6 @@
 define (require) ->
 
-  config = require('cjs!config/app')
+  CONFIG = require('cjs!config/app')
   Backbone = require('backbone')
 
   Backbone.Model.extend
@@ -13,7 +13,7 @@ define (require) ->
         navOn: false
         relationsMapped: false
         busStopsVisible: false
-        url: config.scheduleLink(@toJSON())
+        url: CONFIG.scheduleLink(@toJSON())
       })
       @listenTo(@App, 'start', => @mapRelations(@App.Collections.Points))
 
