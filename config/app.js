@@ -2,6 +2,7 @@ module.exports = {
   title: 'Route Map',
   description: '123',
   apikey: 'AIzaSyCuIy2sg0FV6hWvjXor7TEY1B0iJFqmKPc',
+  menuWidth: 300,
   map: {
     zoom: 12,
     center: {
@@ -30,7 +31,29 @@ module.exports = {
       }
     }
   },
-  scheduleLink: function(input) {
-    return '/'+input.abbr.toLowerCase()+'.php';
+  scheduleLink: function(route) {
+    var link;
+    var input = route.abbr.toLowerCase();
+    switch (input) {
+      case '31':
+      case '32':
+        link = '31_32_sartell.php';
+        break;
+      case 'nsl':
+        link = 'http://catchthelink.com/schedule-fares/';
+        break;
+      case 'scw':
+        link = 'stearns_county_west.php';
+        break;
+      case 'lne':
+      case 'lns':
+        link = 'ln.php';
+        break;
+      default:
+        link = '/'+input+'.php';
+        break;
+    }
+
+    return link;
   }
 };
