@@ -37,17 +37,17 @@ module.exports = {
     switch (input) {
       case '31':
       case '32':
-        link = '31_32_sartell.php';
+        link = '/31_32_sartell.php';
         break;
       case 'nsl':
         link = 'http://catchthelink.com/schedule-fares/';
         break;
       case 'scw':
-        link = 'stearns_county_west.php';
+        link = '/stearns_county_west.php';
         break;
       case 'lne':
       case 'lns':
-        link = 'ln.php';
+        link = '/ln.php';
         break;
       default:
         link = '/'+input+'.php';
