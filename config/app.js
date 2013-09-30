@@ -1,6 +1,6 @@
 module.exports = {
-  title: 'Route Map',
-  description: '123',
+  title: 'St. Cloud Metro Bus Route Map',
+  description: 'View all bus routes and schedules for St. Cloud Metro Bus with a mobile-friendly interactive google map!',
   apikey: 'AIzaSyCuIy2sg0FV6hWvjXor7TEY1B0iJFqmKPc',
   menuWidth: 300,
   map: {
