@@ -5,7 +5,7 @@
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
-    "matchdep": "~0.1.1",
+    "matchdep": "~0.3.0",
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-contrib-watch": "~0.4.3",
     "grunt-contrib-jade": "~0.6.0",

@@ -5,7 +5,7 @@ module.exports = (grunt) ->
 
     stylus:
       css:
-        src: 'app/styles/style.styl'
+        src: 'styles/style.styl'
         dest: 'public/style.css'
 
     copy:
@@ -24,7 +24,7 @@ module.exports = (grunt) ->
                 'app/views/*',
                 'app/collections/*']
       css:
-        files: ['app/styles/*']
+        files: ['styles/*']
         tasks: ['stylus']
       jade:
         files: ['app/pages/*']
