@@ -10,7 +10,7 @@
     "require-cs": "~0.4.4",
     "hammerjs": "~1.0.5",
     "backbone": "~1.0.0",
-    "handlebars": "~1.0.0",
+    "handlebars": "~1.1.2",
     "cjs": "latest",
     "iscroll": "~4.2.5",
     "jquery": "~2.0.3"

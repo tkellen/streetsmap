@@ -14,7 +14,7 @@ require.config({
     domlib: 'components/jquery/jquery',
     lodash: 'components/lodash/lodash',
     backbone: 'components/backbone/backbone',
-    handlebars: 'components/handlebars/handlebars',
+    handlebars: 'components/handlebars/handlebars.runtime',
     hammer: 'components/hammerjs/dist/jquery.hammer',
     iscroll: 'components/iscroll/src/iscroll',
     templates: 'public/templates',
